@@ -1,6 +1,16 @@
 const buildTimestamp = new Date().getTime();
 export default defineNuxtConfig({
   ssr: false,
+  // build: {
+  //   transpile: ['crypto-js']
+  // },
+ runtimeConfig: {
+   public: {
+      aqaz2wsx3ed: process.env.KEY, // คีย์ลับสำหรับเข้ารหัส
+    }
+    
+  },
+
   experimental: {
     emitRouteChunkError: "manual", // Enables custom chunk error handling
   },

@@ -17,8 +17,8 @@ const onSubmit = () => {
         <!-- Logo or Top Decoration (mocked by gradient curve) -->
         <!-- <div class="absolute top-0 w-full h-40 bg-gradient-to-r from-indigo-900 via-yellow-400 to-red-500 rounded-b-full"></div> -->
 
-        <div class="z-10 w-full max-w-md px-6">
-            <div class="bg-white rounded-lg shadow p-6">
+        <div class="z-10 w-full max-w-md px-4">
+            <div class="bg-white rounded-lg  p-1">
                 <h2 class="text-xl font-bold text-gray-900 mb-4">เข้าสู่ระบบ</h2>
 
                 <!-- Language Select -->
