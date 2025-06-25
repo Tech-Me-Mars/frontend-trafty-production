@@ -13,16 +13,21 @@ const onSubmit = () => {
 </script>
 
 <template>
-    <div class="min-h-screen flex flex-col items-center justify-start pt-24 bg-white">
+    <div class="min-h-screen flex flex-col items-center justify-start bg-white">
         <!-- Logo or Top Decoration (mocked by gradient curve) -->
         <!-- <div class="absolute top-0 w-full h-40 bg-gradient-to-r from-indigo-900 via-yellow-400 to-red-500 rounded-b-full"></div> -->
-
+        <div class="w-full">
+            <img src="/image/bg/login-header.png" alt="login-header" class="w-full object-cover w-10 h-10"
+                style="border-bottom-left-radius: 50% 10%; border-bottom-right-radius: 50% 10%; width: 100%; height: 11rem;" />
+            <!-- ใส่ overlay text หรือโลโก้เพิ่มที่นี่ถ้าต้องการ -->
+        </div>
         <div class="z-10 w-full max-w-md px-4">
             <div class="bg-white rounded-lg  p-1">
-                <h2 class="text-xl font-bold text-gray-900 mb-4">เข้าสู่ระบบ</h2>
 
                 <!-- Language Select -->
-                <div class="flex justify-end mb-4">
+                <div class="flex justify-between mb-4">
+                <h2 class="text-xl font-bold text-gray-900 mb-4">เข้าสู่ระบบ</h2>
+
                     <Dropdown v-model="locale" :options="['ไทย', 'EN']" class="w-32" />
                 </div>
                 <div class="mb-4">
