@@ -129,15 +129,18 @@
                                 },
 
                             }" />
-                            <Button :loading="isloadingAxi" :label="t('แก้ไข')" severity="primary" variant="outlined" class="w-full" :pt="{
-                                label: {
-                                    class: 'text-primary-main'
-                                },
-                                root: {
-                                    class: '!border-primary-main'
-                                },
-
-                            }" />
+<Button
+  :loading="isloadingAxi"
+  :label="t('แก้ไข')"
+  severity="primary"
+  variant="outlined"
+  class="w-full"
+  @click="openEdit(item)"
+  :pt="{
+    label: { class: 'text-primary-main' },
+    root: { class: '!border-primary-main' }
+  }"
+/>
                             <Button :loading="isloadingAxi" @click="showConfirmDel(item)" icon="fa-regular fa-trash-can" label="" severity="danger" variant="outlined"
                                 class="!w-[10rem]" />
                         </div>
@@ -146,6 +149,38 @@
             </div>
 
         </section>
+        <van-action-sheet
+  v-model:show="showEditSheet"
+  :close-on-click-overlay="true"
+  :round="true"
+  safe-area-inset-bottom
+  title="แก้ไขรายการ"
+>
+  <div class="px-4 pb-6 pt-2">
+    <div class="mb-4">
+      <label class="block text-sm font-semibold text-gray-700 mb-1">ชื่อรายการ</label>
+      <InputText v-model="editForm.name" class="w-full" />
+    </div>
+    <div class="mb-6">
+      <label class="block text-sm font-semibold text-gray-700 mb-1">ราคา</label>
+      <InputText v-model="editForm.price" class="w-full" />
+    </div>
+    <div class="flex justify-between gap-3">
+      <Button
+        label="ยกเลิก"
+        severity="secondary"
+        outlined
+        class="w-full"
+        @click="showEditSheet = false"
+      />
+      <Button
+        label="บันทึก"
+        class="w-full bg-[#202c54] text-white"
+        @click="submitEdit"
+      />
+    </div>
+  </div>
+</van-action-sheet>
       <MyToast :data="alertToast" />
       <ConfirmDialog></ConfirmDialog>
 
@@ -276,4 +311,46 @@ const DeleteItems = async () => {
         console.error('Error deleting item:', error);
     }
 };
+
+const showEditSheet = ref(false)
+const editForm = ref({
+  id: null,
+  name: '',
+  price: ''
+})
+
+const openEdit = (item) => {
+  editForm.value = {
+    id: item.id,
+    name: item.business_list_name,
+    price: item.business_list_price
+  }
+  showEditSheet.value = true
+}
+
+const submitEdit = async () => {
+  try {
+    const payload = {
+      name: editForm.value.name,
+      price: editForm.value.price
+    }
+    const res = await dataApi.updateBusinessItem(editForm.value.id, payload)
+    alertToast.value = {
+      title: t('สำเร็จ'),
+      msg: res.data.message,
+      color: 'info',
+      isError: false
+    }
+    showEditSheet.value = false
+    loadBusinessAll()
+  } catch (error) {
+    alertToast.value = {
+      title: t('ล้มเหลว'),
+      msg: error.response?.data?.message || 'Error occurred',
+      color: 'error',
+      isError: true
+    }
+    console.error(error)
+  }
+}
 </script>

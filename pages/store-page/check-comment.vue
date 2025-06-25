@@ -10,7 +10,12 @@
         <!-- Toggle Header -->
         <div class="flex items-center justify-between p-4 border-b border-gray-100">
           <span class="text-gray-700 font-medium">สถานะการแสดงผล</span>
-          <van-switch v-model="review.isVisible" size="24" active-color="#20bc04" />
+          <!-- <van-switch v-model="review.isVisible" size="24" active-color="#20bc04" /> -->
+            <ConfirmSwitch
+    v-model="review.isVisible"
+    message-on="คุณต้องการเปิดรีวิวนี้ให้ผู้อื่นเห็นหรือไม่?"
+    message-off="คุณต้องการปิดรีวิวนี้ใช่หรือไม่?"
+  />
         </div>
 
         <!-- Place Information Section -->

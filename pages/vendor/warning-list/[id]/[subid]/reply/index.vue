@@ -5,7 +5,7 @@
             @click-left="navigateTo(`/vendor/warning-list/${route.params.id}`)">
         </van-nav-bar>
 
-        <section class="bg-white shadow-sm p-4 mb-5">
+        <!-- <section class="bg-white shadow-sm p-4 mb-5">
             <div class="!border !border-black rounded-sm card ">
                 <div class="flex items-center mb-2">
                     <i class="fas fa-exclamation-triangle text-primary-main mr-2"></i>
@@ -18,11 +18,26 @@
 
 
             </div>
-        </section>
+        </section> -->
         <!-- {{ errors }} -->
         <Form @submit="handleNext">
-            <section class="px-4">
-                <div class="mb-2 card max-w-md" v-for="(item, index) in fields" :key="index">
+            <section class="px-0">
+                <div class="border bg-white mb-2 rounded-md p-4  text-gray-800">
+                    <div class="flex items-center mb-2  font-semibold">
+                        <i class="pi pi-comment mr-2"></i> ข้อเสนอแนะเพิ่มเติม
+                    </div>
+
+                    <Textarea v-model="suggestion" autoResize rows="3" placeholder="พิมพ์ข้อเสนอแนะเพิ่มเติม..."
+                        class="w-full" />
+                </div>
+
+                <div class="px-4">
+                    <h1 class="text-lg font-semibold text-primary-main ">หัวข้อที่ไม่ผ่านเกณฑ์มาตรฐานความปลอดภัย</h1>
+                    <p class="text-gray-500">สามารถอัพโหลดรูปภาพได้เพีบง 1 รูปต่อข้อ</p>
+
+                </div>
+
+                <div class="mb-2 card max-w-md px-4" v-for="(item, index) in fields" :key="index">
                     <div class="flex items-start space-x-3 mb-2">
                         <i class="fa-solid fa-circle-xmark text-red-600 mt-1"></i>
 
@@ -141,13 +156,13 @@ const loadWarningById = async () => {
             push({
                 // key: fields.value.length + 1,
                 // value: {
-                    survey_warning_respond_details_id: e.survey_warning_respond_details_id,
-                    survey_audit_police_details_id: e.survey_audit_police_details_id,
-                    audit_questions_text: e.audit_questions_text,
-                    choice_text: e.choice_text,
-                    icon: e.icon,
-                    respond_warning_note: "",
-                    respond_warning_img: null,
+                survey_warning_respond_details_id: e.survey_warning_respond_details_id,
+                survey_audit_police_details_id: e.survey_audit_police_details_id,
+                audit_questions_text: e.audit_questions_text,
+                choice_text: e.choice_text,
+                icon: e.icon,
+                respond_warning_note: "",
+                respond_warning_img: null,
                 // }
             });
         });
@@ -181,7 +196,8 @@ const { handleSubmit, errors, handleReset } = useForm({
     validationSchema,
 });
 
-const { value: respond_warning_note } = useField('respond_warning_note')
+
+const { value: suggestion } = useField('suggestion')
 const { remove, push, fields } = useFieldArray("list_survey");
 
 
@@ -190,9 +206,12 @@ const { remove, push, fields } = useFieldArray("list_survey");
 // })
 const handleNext = handleSubmit(async () => {
     try {
-        const response_count= fields.value.length
+        const response_count = fields.value.length
         const formData = new FormData();
         formData.append('survey_warning_id', parseInt(route.params.subid));
+
+        formData.append('suggestion', suggestion);
+
         formData.append('response_count', response_count);
         fields?.value?.forEach((e, i) => {
             formData.append(`responses[${i}][survey_warning_respond_details_id]`, e.value.survey_warning_respond_details_id ? e.value.survey_warning_respond_details_id : null);
@@ -201,7 +220,7 @@ const handleNext = handleSubmit(async () => {
             formData.append(`responses[${i}][respond_warning_img]`, e.value.respond_warning_img ? e.value.respond_warning_img.file : null);
         });
         console.log(formData)
-    
+
         const res = await dataApi.updateVendorReply(formData);
         alertToast.value = {
             title: t('สำเร็จ'),
@@ -211,7 +230,7 @@ const handleNext = handleSubmit(async () => {
         }
 
         // setTimeout(() => {
-            navigateTo(`/vendor/warning-list/${route.params.id}/${route.params.subid}/success`)
+        navigateTo(`/vendor/warning-list/${route.params.id}/${route.params.subid}/success`)
         // }, 1500);
     } catch (error) {
         alertToast.value = {
