@@ -33,10 +33,28 @@
       </template>
       </InputText> -->
     <!-- Image Section -->
-    <div class="mt-4">
+    <!-- <div class="mt-4">
       <img src="/image/bg/food-4k.jpg" alt="อาหาร"
         class="rounded-lg shadow-md w-full h-48 md:h-60 lg:h-80 object-cover" />
-    </div>
+    </div> -->
+    <div class="mt-4">
+    <Swiper
+      :modules="[Autoplay, Navigation, Pagination]"
+      :loop="true"
+      :autoplay="{ delay: 3000, disableOnInteraction: false }"
+      :pagination="{ clickable: true, dynamicBullets: true }"
+      :navigation="false"
+      class="rounded-lg shadow-md overflow-hidden"
+    >
+      <SwiperSlide v-for="(img, i) in images" :key="i">
+        <img
+          :src="img.src"
+          :alt="img.alt"
+          class="w-full h-48 md:h-60 lg:h-80 object-cover"
+        />
+      </SwiperSlide>
+    </Swiper>
+  </div>
 
     <!-- Categories Section -->
 
@@ -119,13 +137,19 @@ import widgetRecommentPlace from './widgets/widget-recommend-place.vue';
 import widgetHotPlace from './widgets/widget-hot-place.vue';
 import widgetNearPlace from './widgets/widget-near-place.vue';
 
-import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { useI18n } from 'vue-i18n';
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Autoplay, Navigation, Pagination } from 'swiper/modules'
 const { t } = useI18n();
-
+const images = [
+  { src: '/image/bg/food-4k.jpg', alt: 'อาหารไทย' },
+  { src: '/image/bg/food-2.jpg', alt: 'อาหารทะเล' },
+  { src: '/image/bg/food-3.jpg', alt: 'ของหวาน' },
+  { src: '/image/bg/food-4.jpg', alt: 'เครื่องดื่ม' }
+]
 const categories = [
   {
     label: "ร้านอาหาร",
@@ -284,6 +308,20 @@ const drawervisible = useState('drawervisible');
 </script>
 
 <style>
+.swiper-pagination-bullet {
+  background-color: white;
+  border: 2px solid #d1d5db; /* สีเทา */
+  opacity: 1;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: 0 4px;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #1d4ed8; /* เปลี่ยนเป็นสี active ที่ต้องการ เช่น สีฟ้าน้ำเงิน */
+  border-color: #1d4ed8;     /* เปลี่ยนสีขอบตอน active */
+}
 .menu-item i {
   color: #281c74;
 }

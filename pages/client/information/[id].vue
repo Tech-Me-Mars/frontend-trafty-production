@@ -37,15 +37,10 @@
             <div class="flex items-center justify-between mt-4">
                 <h1 class="text-xl font-semibold">{{ resInfo?.shop_name }}</h1>
                 <div class="flex items-center text-gray-700">
-                    <i
-      class="fa-heart cursor-pointer text-gray-400 transition-all duration-300 transform"
-      :class="{
-        'fa-regular': !isLiked,
-        'fa-solid text-rose-600 scale-110': isLiked,
-      }"
-      @click="toggleLike"
-      style="font-size: 22px"
-    ></i>
+                    <i class="fa-heart cursor-pointer text-gray-400 transition-all duration-300 transform" :class="{
+                        'fa-regular': !isLiked,
+                        'fa-solid text-rose-600 scale-110': isLiked,
+                    }" @click="toggleLike" style="font-size: 22px"></i>
                 </div>
             </div>
             <div class="flex items-center text-orange-500">
@@ -56,7 +51,7 @@
             <p class="text-sm text-gray-700">{{ resInfo?.shop_address }}</p>
 
             <!-- Details Section -->
-            <div class="mt-4">
+            <!-- <div class="mt-4">
                 <h2 class="text-gray-800 font-semibold">{{ t('รายละเอียด') }}</h2>
                 <p class="text-sm text-gray-600 mt-2">
                     {{ resInfo?.shop_details }}
@@ -70,6 +65,39 @@
                     <p><strong>{{ t('เวลาเปิด - ปิด') }}:</strong> {{ resInfo?.shop_time }}</p>
                     <p><strong>{{ t('เบอร์ติดต่อ') }}:</strong> {{ resInfo?.shop_phone }}</p>
                 </div>
+            </div> -->
+            <div class="mt-2 text-sm text-gray-800 space-y-2">
+                <h2 class="text-gray-800 font-semibold">{{ t('รายละเอียด') }}</h2>
+                <p class="text-sm text-gray-600 mt-2">
+                    {{ resInfo?.shop_details }}
+                </p>
+                <p class="flex items-start gap-2">
+                    <i class="pi pi-calendar text-yellow-500 text-lg mt-1" />
+                    <span>
+                        <strong class="text-black">{{ t('วันที่ทำการ') }} :</strong>
+                        <span class="text-primary-700">
+                            <template v-for="(item, index) in resInfo?.shop_days" :key="index">
+                                {{ item?.day_name }}<span v-if="index !== resInfo.shop_days.length - 1"> - </span>
+                            </template>
+                        </span>
+                    </span>
+                </p>
+
+                <p class="flex items-start gap-2">
+                    <i class="pi pi-clock text-blue-500 text-lg mt-1" />
+                    <span>
+                        <strong class="text-black">{{ t('เวลาเปิด - ปิด') }} :</strong>
+                        <span class="text-primary-700">{{ resInfo?.shop_time }}</span>
+                    </span>
+                </p>
+
+                <p class="flex items-start gap-2">
+                    <i class="pi pi-phone text-green-500 text-lg mt-1" />
+                    <span>
+                        <strong class="text-black">{{ t('เบอร์ติดต่อ') }} :</strong>
+                        <span class="text-primary-700">{{ resInfo?.shop_phone }}</span>
+                    </span>
+                </p>
             </div>
             <widgetSocial :resInfo="resInfo?.social_medias" />
         </div>
@@ -83,8 +111,8 @@
             <Button :loading="isloadingAxi"
                 @click="navigateTo(`/inspector/inspec-vender/${route.params.id}/safety-form/form1/`)"
                 :label="t('ตรวจสอบมาตรฐาน')" rounded severity="primary" class="" />
-            <Button :loading="isloadingAxi" icon="fa-regular fa-comment-dots" :label="t('ติดต่อ')" rounded severity="primary"
-                variant="outlined" class="" :pt="{
+            <Button :loading="isloadingAxi" icon="fa-regular fa-comment-dots" :label="t('ติดต่อ')" rounded
+                severity="primary" variant="outlined" class="" :pt="{
                     label: {
                         class: 'text-primary-main'
                     },
@@ -180,6 +208,6 @@ const loadDataInfo = async () => {
 const isLiked = ref(false);
 
 const toggleLike = () => {
-  isLiked.value = !isLiked.value;
+    isLiked.value = !isLiked.value;
 };
 </script>
