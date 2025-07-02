@@ -51,50 +51,6 @@ export default defineNuxtConfig({
   modules: ['@primevue/nuxt-module', '@nuxtjs/tailwindcss', '@vant/nuxt', '@nuxtjs/google-fonts', '@nuxtjs/i18n', '@nuxtjs/leaflet','@pinia/nuxt',
     '@vite-pwa/nuxt'
   ],
-  pwa: {
-    registerType: 'autoUpdate',
-    includeAssets: ['/pwa/logo_erp.png', 'offline.html'],
-    manifest: {
-      name: 'smart travel trafty',
-      short_name: 'trafty',
-      start_url: '/',
-      display: 'standalone',
-      background_color: '#ffffff',
-      theme_color: '#4B5563',
-      icons: [
-        {
-          src: '/pwa/logo_erp.png',
-          sizes: '192x192',
-          type: 'image/png'
-        },
-        {
-          src: '/pwa/logo_erp.png',
-          sizes: '512x512',
-          type: 'image/png'
-        }
-      ]
-    },
-    workbox: {
-      globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
-  
-      // ✅ ✅ เพิ่ม fallback สำหรับ navigation เมื่อ offline
-      navigateFallback: '/offline.html',
-  
-      // (optional) เงื่อนไข allow เฉพาะ path ที่ fallback ได้
-      // navigateFallbackAllowlist: [/^\/$/],
-  
-      runtimeCaching: [
-        {
-          urlPattern: /^https:\/\/your-api\.com\/.*$/,
-          handler: 'NetworkFirst',
-          options: {
-            cacheName: 'api-cache',
-            expiration: { maxEntries: 50, maxAgeSeconds: 86400 },
-          },
-        }
-      ]
-    }
-  },
   i18n: {
     lazy: true,
     langDir: 'locales/',
