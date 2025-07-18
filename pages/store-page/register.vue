@@ -1,107 +1,167 @@
 <script setup>
-import { ref } from 'vue'
-import { useForm, useField } from 'vee-validate'
-import * as yup from 'yup'
+import { useRouter, useRoute } from 'vue-router';
+const isloadingAxi = useState("isloadingAxi");
 const router = useRouter();
-// สำหรับ tab
-const activeTab = ref(0)
-const isloadingAxi = useState('isloadingAxi')
+const route = useRoute();
 
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
 
-// 🎯 สร้าง schema ด้วย yup
-const schema = yup.object({
-    name: yup.string().required('กรุณากรอกชื่อ - นามสกุล'),
-    email: yup.string().email('อีเมลไม่ถูกต้อง').required('กรุณากรอกอีเมล'),
-    username: yup.string().required('กรุณากรอกชื่อผู้ใช้งาน'),
-    password: yup.string().min(6, 'รหัสผ่านอย่างน้อย 6 ตัว').required('กรุณากรอกรหัสผ่าน')
-})
+import { useFieldArray, useForm, Form, useField } from "vee-validate";
+import { toTypedSchema } from "@vee-validate/zod";
+import * as zod from "zod";
 
-// 🎯 ใช้ useForm จาก vee-validate
-const { handleSubmit } = useForm({
-    validationSchema: schema
-})
+// import * as dataApi from "./api/data.js";
+// import { useEncryptedCookie } from '~/composables/useEncryptedCookie';
 
-// 🎯 ผูกแต่ละ field
-const { value: name, errorMessage: nameError } = useField('name')
-const { value: email, errorMessage: emailError } = useField('email')
-const { value: username, errorMessage: usernameError } = useField('username')
-const { value: password, errorMessage: passwordError } = useField('password')
+const alertToast = ref({});
 
-// 🎯 ฟังก์ชันเมื่อกดปุ่มลงทะเบียน
-const submit = handleSubmit(values => {
-    isloadingAxi.value = true
-    console.log('Submitted:', values)
-    setTimeout(() => {
-        isloadingAxi.value = false
-        alert('ลงทะเบียนสำเร็จ')
-    }, 1500)
-})
+const requireValue = t('กรุณาระบุข้อมูลให้ถูกต้อง');
+
+const validationSchema = toTypedSchema(
+  zod.object({
+    name: zod.string()
+      .nonempty(requireValue)
+      .max(50, `${t('ชื่อไม่ควรเกิน')} 50 ${t('ตัวอักษร')}`).default(""),
+    username: zod.string()
+      .nonempty(requireValue)
+      .min(4, `${t('ชื่อผู้ใช้งานต้องมีอย่างน้อย')} ${t('ตัวอักษร')}`)
+      .max(20, `${t('ชื่อผู้ใช้งานไม่ควรเกิน')} 20 ${t('ตัวอักษร')}`).default(""),
+    email: zod.string()
+      .nonempty(requireValue)
+      .email(t('รูปแบบอีเมลไม่ถูกต้อง')).default(""),
+    password: zod.string()
+      .nonempty(requireValue)
+      .min(8, `${t('รหัสผ่านต้องมีอย่างน้อย')} 8 ${t('ตัวอักษร')}`)
+      .max(50, `${t('รหัสผ่านไม่ควรเกิน')} 50 ${t('ตัวอักษร')}`)
+      .regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/, t('รหัสผ่านต้องมีตัวอักษรและตัวเลข')).default(""),
+  })
+)
+
+const { handleSubmit, errors } = useForm({
+  validationSchema,
+});
+
+const { value: name } = useField('name')
+const { value: username } = useField('username')
+const { value: password } = useField('password')
+const { value: email } = useField('email')
+
+const handleNext = handleSubmit(async () => {
+  try {
+    const payload = {
+      name: name.value,
+      username: username.value,
+      password: password.value,
+      role_id: 1,
+      email: email.value,
+      status: true
+    };
+
+    // const res = await dataApi.register(payload);
+
+    // ❗ ปรับเป็นใช้ useEncryptedCookie
+    // await useEncryptedCookie('token', res.data.data.access_token);
+    // await useEncryptedCookie('role_id', res.data.data.user?.role_id);
+
+    navigateTo(`/auth/login`);
+  } catch (error) {
+    console.error(error)
+    alertToast.value = {
+      title: t('ล้มเหลว'),
+      isError: true,
+      color: "error",
+      msg: error.response?.data?.message || "Error occurred",
+      dataError: error,
+    };
+  }
+});
 </script>
-
 <style>
 .van-nav-bar {
     --van-nav-bar-background: #281c74;
     --van-nav-bar-text-color: white;
     --van-nav-bar-icon-color: white;
     --van-nav-bar-title-text-color: white;
-    --van-nav-bar-height: 70px;
+    --van-nav-bar-height: 70px
+}
+
+.cutome-datepicker {
+    border: none !important;
+    background-color: #281c74 !important;
 }
 </style>
-
 <template>
+    <div class="bg-zinc-100 min-h-screen">
+        <!-- <van-nav-bar title="ลงทะเบียนนักท่องเที่ยว" left-arrow @click-left="router.go(-1)">
+        </van-nav-bar> -->
+        <LayoutsBaseHeader title="ลงทะเบียนนักท่องเที่ยว" showBack></LayoutsBaseHeader>
+        <div class="p-4 ">
 
-    <div class="min-h-screen bg-zinc pb-24">
-        <van-nav-bar title="ลงทะเบียนนักท่องเที่ยว" left-arrow @click-left="router.go(-1)" />
+            <!-- {{ errors }} -->
+            <Form @submit="handleNext">
+                <div class="card pt-5 mb-10">
+                    <h2 class="font-bold text-lg mb-3">
+                        {{ t('ลงทะเบียนเข้าใช้งานนักท่องเที่ยว') }}
+                    </h2>
 
-        <van-tabs v-model:active="activeTab" line-width="40" color="#1E3A8A" title-active-color="#1E3A8A"
-            class="shadow-sm">
-            <van-tab title="นักท่องเที่ยว">
-                <form @submit.prevent="submit">
-                    <div class="bg-white rounded-lg shadow-sm p-6 mx-4 mt-4 space-y-4">
-                        <h2 class="text-lg font-bold text-gray-800">ข้อมูลการลงทะเบียน</h2>
 
-                        <!-- Name -->
+                    <div class="space-y-4">
+                        <!-- ชื่อสถานที่ -->
                         <div>
-                            <InputText v-model="name" class="w-full custom-border" placeholder="ชื่อ - นามสกุล" />
-                            <small class="text-red-500 text-sm">{{ nameError }}</small>
+                            <label class="label-input">{{ t('ชื่อ') }}</label>
+                            <InputText v-model="name" :placeholder="t('ชื่อ')" class="w-full custom-border"
+                                :invalid="errors?.name ? true : false" />
+                            <p class="error-text" v-if="errors?.name">{{ errors?.name }}</p>
+                        </div>
+                        <div>
+                            <label class="label-input">{{ t('อีเมล') }}</label>
+                            <InputText v-model="email" :placeholder="t('อีเมล')" class="w-full custom-border"
+                                :invalid="errors?.email ? true : false" />
+                            <p class="error-text" v-if="errors?.email">{{ errors?.email }}</p>
+
                         </div>
 
-                        <!-- Email -->
+                        <!-- กก -->
                         <div>
-                            <InputText v-model="email" class="w-full custom-border" placeholder="อีเมล" />
-                            <small class="text-red-500 text-sm">{{ emailError }}</small>
+                            <label class="label-input">{{ t('ชื่อผู้ใช้งาน') }}</label>
+                            <InputText v-model="username" placeholder="" class="w-full custom-border"
+                                :invalid="errors?.username ? true : false" />
+                            <p class="error-text" v-if="errors?.username">{{ errors?.username }}</p>
+
                         </div>
 
-                        <!-- Username -->
+                        <!-- กองบังคับการ -->
                         <div>
-                            <InputText v-model="username" class="w-full custom-border" placeholder="ชื่อผู้ใช้งาน" />
-                            <small class="text-red-500 text-sm">{{ usernameError }}</small>
+                            <label class="label-input">{{ t('รหัสผ่าน') }}</label>
+                            <Password toggleMask v-model="password" placeholder=""
+                                :invalid="errors?.password ? true : false" class="w-full custom-border"
+                                inputClass="w-full custom-border" :feedback="false" />
+                            <p class="error-text" v-if="errors?.password">{{
+                                errors?.password }}</p>
+
                         </div>
 
-                        <!-- Password -->
-                        <div>
-                            <Password type="password" v-model="password" class="w-full" inputClass="custom-border !w-full"
-                                placeholder="รหัสผ่าน" :feedback="false"  />
-                            <small class="text-red-500 text-sm">{{ passwordError }}</small>
-                        </div>
+
                     </div>
 
-                    <!-- Register Button -->
-                    <div class="flex justify-center mt-4 px-4">
-                        <Button :loading="isloadingAxi" label="ลงทะเบียน" type="submit" severity="primary" rounded
-                            class="w-full max-w-md" :pt="{ root: { class: '!border-primary-main' } }" />
-                    </div>
-                </form>
-            </van-tab>
-
-            <van-tab title="ผู้ประกอบการ">
-                <div class="p-6 text-center text-gray-500">
-                    ยังไม่เปิดให้ลงทะเบียนผู้ประกอบการ
                 </div>
-            </van-tab>
-        </van-tabs>
 
+
+                <!-- <NuxtLink to="/inspector/inspec-vender/1/safety-form/form2"> --> 
+                    <!-- เพิ่ม dialog resigster -->
+                <Button :loading="isloadingAxi" :label="t('ลงทะเบียน')" type="submit" severity="primary" rounded class="w-full"
+                    :pt="{
+                        root: {
+                            class: '!border-primary-main'
+                        },
+                    }" />
+                <!-- </NuxtLink> -->
+            </Form>
+        </div>
 
     </div>
+
+    <MyToast :data="alertToast" />
 
 </template>

@@ -2,9 +2,9 @@
     <div class="p-4">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-lg font-bold">{{ t('สถานที่ใกล้ฉัน') }}</h2>
-            <!-- <a href="#" class="hover:underline cursor-pointer">ดูทั้งหมด <i
-                    class="fa-solid fa-arrow-right rounded-sm text-gray-700"
-                    style="background-color: #ddd6fe; font-size: 14px;"></i></a> -->
+            <NuxtLink to="/client/near-place" class="hover:underline cursor-pointer">{{ t('ดูทั้งหมด') }} <i
+          class="fa-solid fa-arrow-right rounded-sm text-gray-700"
+          style="background-color: #ddd6fe; font-size: 14px;"></i></NuxtLink>
 
         </div>
         <div class="space-y-4">

@@ -1,7 +1,9 @@
 <template>
     <div class="bg-zinc-100 min-h-screen">
-        <van-nav-bar :title="t('ธุรกิจของฉัน')" left-arrow @click-left="navigateTo('/')">
-        </van-nav-bar>
+        <!-- <van-nav-bar :title="t('ธุรกิจของฉัน')" left-arrow @click-left="navigateTo('/')">
+        </van-nav-bar> -->
+        <LayoutsBaseHeader :title="t('ธุรกิจของฉัน')" :showBack="true"
+        backTo="/"></LayoutsBaseHeader>
         <div class="flex justify-between flex-wrap gap-2 bg-white px-4 py-3">
             <h1 class="text-xl font-semibold">{{ t('ธุรกิจของฉัน') }} ({{ resBusiness.length }})</h1>
             <!-- <Select v-model="status_select" disabled :options="statusOptions" optionLabel="name" optionValue="id"
@@ -34,11 +36,11 @@
                             class="text-white bg-green-700 rounded-full px-2 py-2 text-xs">{{ t('อนุมัติแล้ว') }}</div>
 
                         <div v-else class="text-white bg-yellow-500 rounded-full px-2 py-2 text-xs">{{ t('รอตรวจสอบ') }}</div> -->
-                        <div class="text-white rounded-full px-2 py-2 text-xs" :class="{
+                        <div class="text-white rounded-full px-2 py-2 px-4 text-xs" :class="{
                             'bg-yellow-500': item?.survey_status_id === 0 || item?.survey_status_id === 3,
                             'bg-red-600': item?.survey_status_id === 4,
                             'bg-blue-500': item?.survey_status_id === 5,
-                            'bg-green-700': item?.survey_status_id === 2,
+                            'bg-[#1db900]': item?.survey_status_id === 2,
                         }">
                             {{ getStatusText(item?.survey_status_id) }}
                         </div>
