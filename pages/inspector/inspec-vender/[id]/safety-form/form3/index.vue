@@ -9,9 +9,11 @@
 </style>
 <template>
   <div class="bg-zinc-100 min-h-screen">
-    <van-nav-bar :title="t('แบบตรวจสอบด้านความปลอดภัย')" left-arrow
+    <!-- <van-nav-bar :title="t('แบบตรวจสอบด้านความปลอดภัย')" left-arrow
       @click-left="navigateTo(`/inspector/inspec-vender/${route.params.id}/safety-form/form2`)">
-    </van-nav-bar>
+    </van-nav-bar> -->
+    <LayoutsBaseHeader :title="t('แบบตรวจสอบด้านความปลอดภัย')"  :showBack="true" :backTo="`/inspector/inspec-vender/${route.params.id}/safety-form/form2`">
+        </LayoutsBaseHeader>
     <div class="p-4 ">
       <!-- <Form :validation-schema="yupSchema" @submit="onSubmit"> -->
       <form @submit.prevent="submitForm">

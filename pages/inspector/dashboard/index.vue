@@ -33,11 +33,17 @@ const businessData = ref({
 }
 </style>
 <template>
-<van-nav-bar title="ระบบจัดเก็บข้อมูล" left-arrow  @click-left="router.go(-1)">
+<!-- <van-nav-bar title="ระบบจัดเก็บข้อมูล" left-arrow  @click-left="router.go(-1)">
   <template #right>
     <i class="fa-solid fa-xmark" style="color: white;font-size: 26px;"></i>
   </template>
-</van-nav-bar>
+</van-nav-bar> -->
+
+            <LayoutsBaseHeader title="ระบบจัดเก็บข้อมูล" :showBack="true">
+                <template #right>
+    <i class="fa-solid fa-xmark" style="color: white;font-size: 26px;"></i>
+  </template>
+        </LayoutsBaseHeader>
 
   <!-- <i class="pi pi-check"></i> -->
   <div class="p-4 bg-gray-100 min-h-screen">

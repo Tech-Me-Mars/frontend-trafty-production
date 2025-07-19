@@ -1,8 +1,10 @@
 <template>
     <div class="min-h-screen bg-zinc-50">
         <!-- Header Section -->
-        <van-nav-bar :title="t('ดูรายละเอียดใบเตือน')" left-arrow @click-left="router.go(-1)">
-        </van-nav-bar>
+        <!-- <van-nav-bar :title="t('ดูรายละเอียดใบเตือน')" left-arrow @click-left="router.go(-1)">
+        </van-nav-bar> -->
+                    <LayoutsBaseHeader :title="t('ดูรายละเอียดใบเตือน')" :showBack="true">
+        </LayoutsBaseHeader>
 
         <Form @submit="onSubmit" v-slot="{ errors: formErrors }">
             <section class="p-4">

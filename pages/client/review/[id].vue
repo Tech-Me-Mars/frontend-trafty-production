@@ -9,8 +9,9 @@
 </style>
 <template>
     <div class="bg-zinc-100 min-h-screen">
-        <van-nav-bar :title="t('เขียนรีวิว')" left-arrow @click-left="navigateTo(`/client/ratings/${route.params.id}`)">
-        </van-nav-bar>
+
+        <LayoutsBaseHeader title="เขียนรีวิว" :showBack="true" :back-to="`/client/ratings/${route.params.id}`">
+        </LayoutsBaseHeader>
         <Form @submit="handleNext">
 
             <div class="flex flex-col items-center bg-white pt-10 rounded-lg mx-auto">
@@ -26,8 +27,8 @@
 
                 <!-- Buttons -->
                 <div class="grid grid-cols-2 gap-2 mb-6">
-                    <button type="button" v-for="item in resTypeBusinessComment" :key="item.id" @click="setSelectionById(item.id)"
-                        :class="[
+                    <button type="button" v-for="item in resTypeBusinessComment" :key="item.id"
+                        @click="setSelectionById(item.id)" :class="[
                             'px-4 py-2 border rounded-full text-gray-700',
                             star_id === item.id ? 'bg-primary-main !text-white' : 'bg-gray-100'
                         ]">

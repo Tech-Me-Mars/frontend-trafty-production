@@ -9,9 +9,9 @@
 </style>
 <template>
     <div class="bg-white min-h-screen">
-        <van-nav-bar :title="('มาตรฐานความปลอดภัย')" left-arrow
-            @click-left="navigateTo(`/client/information/${route.params.id}`)">
-        </van-nav-bar>
+
+                    <LayoutsBaseHeader title="มาตรฐานความปลอดภัย" :showBack="true" :back-to="`/client/information/${route.params.id}`">
+        </LayoutsBaseHeader>
 
         <div class="">
             <div class="mx-auto  ">

@@ -190,8 +190,10 @@ const responsiveOptions = ref([
 </style>
 <template>
     <div class="bg-zinc-100 min-h-screen">
-        <van-nav-bar :title="t('ค้นหาสถานที่')" left-arrow @click-left="navigateTo('/')">
-        </van-nav-bar>
+        <!-- <van-nav-bar :title="t('ค้นหาสถานที่')" left-arrow @click-left="navigateTo('/')">
+        </van-nav-bar> -->
+                <LayoutsBaseHeader title="ค้นหาสถานที่" :showBack="true" :back-to="`/`">
+        </LayoutsBaseHeader>
 
 
         <section class="p-4">

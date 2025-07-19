@@ -41,13 +41,13 @@ onMounted(() => {
 <template>
     <div class="bg-zinc-100 min-h-screen">
 
-        <van-nav-bar :title="t('Smart Travel Safety')">
+        <LayoutsBaseHeader :title="t('ประเภทการให้บริการ')" :showBack="true" backTo="/vendor/my-business">
             <template #right>
                 <i @click="navigateTo('/vendor/my-business')" class="fa-solid fa-xmark"
                     style="color: white;font-size: 26px;"></i>
             </template>
+        </LayoutsBaseHeader>
 
-        </van-nav-bar>
 
         <div class="p-4">
             <div class="text-center pt-10 mb-12">
@@ -56,14 +56,8 @@ onMounted(() => {
             </div>
             <div class="text-center">
                 <!-- ปุ่มสำหรับแต่ละประเภท -->
-                <Button :loading="isloadingAxi"
-                    v-for="(item, index) in resServiceType"
-                    :key="index"
-                    :label="item.service_type_name"
-                    severity="primary"
-                    rounded
-                    variant="outlined"
-                    class="w-full mb-4"
+                <Button :loading="isloadingAxi" v-for="(item, index) in resServiceType" :key="index"
+                    :label="item.service_type_name" severity="primary" rounded variant="outlined" class="w-full mb-4"
                     :pt="{
                         label: {
                             class: 'text-primary-main'
@@ -71,9 +65,7 @@ onMounted(() => {
                         root: {
                             class: '!border-primary-main'
                         }
-                    }"
-                     @click="handleServiceTypeClick(item.id, item.service_type_name)" 
-                />
+                    }" @click="handleServiceTypeClick(item.id, item.service_type_name)" />
             </div>
         </div>
         <MyToast :data="alertToast" />

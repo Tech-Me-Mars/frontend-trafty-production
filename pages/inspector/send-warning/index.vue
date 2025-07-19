@@ -1,8 +1,10 @@
 <template>
     <div class="bg-zinc-100 min-h-screen">
-        <van-nav-bar :title="t('ธุรกิจหรือแหล่งท่องเที่ยวที่ไม่ผ่านเกณฑ์')" left-arrow
+        <!-- <van-nav-bar :title="t('ธุรกิจหรือแหล่งท่องเที่ยวที่ไม่ผ่านเกณฑ์')" left-arrow
             @click-left="navigateTo('/inspector/home')">
-        </van-nav-bar>
+        </van-nav-bar> -->
+                    <LayoutsBaseHeader :title="t('ธุรกิจหรือแหล่งท่องเที่ยวที่ไม่ผ่านเกณฑ์')" :showBack="true" backTo="/inspector/home">
+        </LayoutsBaseHeader>
         <div class="flex justify-between flex-wrap gap-2 bg-white px-4 py-3">
             <h1 class="text-xl font-semibold">{{ t('ธุรกิจหรือแหล่งท่องเที่ยวที่ไม่ผ่านเกณฑ์') }} ({{ resData.length }})</h1>
             <Select v-model="status_select" disabled :options="statusOptions" optionLabel="name" optionValue="id"

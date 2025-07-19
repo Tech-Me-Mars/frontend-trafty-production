@@ -72,11 +72,16 @@ onMounted(() => loadBusinessType());
 
 <template>
   <div class="bg-zinc-100 min-h-screen">
-    <van-nav-bar
+    <!-- <van-nav-bar
       :title="t('ประเภทธุรกิจในแหล่งท่องเที่ยว')"
       left-arrow
       @click-left="formStore.prevPage()"
-    ></van-nav-bar>
+    ></van-nav-bar> -->
+    <LayoutsBaseHeader :title="t('ประเภทธุรกิจในแหล่งท่องเที่ยว')">
+      <template #left>
+        <ButtonIconBack @click="formStore.prevPage()" />
+      </template>
+    </LayoutsBaseHeader>
 
     <div class="p-4">
       <!-- Steps Bar -->

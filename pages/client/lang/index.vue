@@ -1,7 +1,7 @@
 <template>
     <div class="bg-zinc-100 min-h-screen">
-        <van-nav-bar title="ภาษา" left-arrow @click-left="router.go(-1)">
-        </van-nav-bar>
+                <LayoutsBaseHeader :title="t('ภาษา')" :showBack="true">
+        </LayoutsBaseHeader>
 
         <ul class="bg-white ">
             <li v-for="localeOption in locales" :key="localeOption.code" 

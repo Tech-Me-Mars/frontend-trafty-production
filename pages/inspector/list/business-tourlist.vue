@@ -1,9 +1,12 @@
 <template>
     <div class="bg-zinc-100 min-h-screen">
-        <van-nav-bar :title="t('การจัดการธุรกิจในแหล่งท่องเที่ยว')" left-arrow @click-left="navigateTo('/inspector/home')">
-        </van-nav-bar>
+        <!-- <van-nav-bar :title="t('การจัดการธุรกิจในแหล่งท่องเที่ยว')" left-arrow @click-left="navigateTo('/inspector/home')">
+        </van-nav-bar> -->
+        <LayoutsBaseHeader :title="t('การจัดการธุรกิจในแหล่งท่องเที่ยว')" :showBack="true" backTo="/inspector/home">
+        </LayoutsBaseHeader>
         <div class="flex justify-between flex-wrap gap-2 bg-white px-4 py-3">
-            <h1 class="text-xl font-semibold">{{ t('ธุรกิจในแหล่งท่องเที่ยว') }} ({{ resSurveytouristwaiting.length }})</h1>
+            <h1 class="text-xl font-semibold">{{ t('ธุรกิจในแหล่งท่องเที่ยว') }} ({{ resSurveytouristwaiting.length }})
+            </h1>
             <Select v-model="status_select" disabled :options="statusOptions" optionLabel="name" optionValue="id"
                 class="w-[10rem]">
 
@@ -30,8 +33,8 @@
                     <hr class="border-t mb-4 mx-5">
                     <div class="flex  gap-3">
 
-                        <Button v-if="item?.survey_status_id == 1" disabled :label="t('ตรวจสอบแล้ว')" :loading="isloadingAxi"
-                            severity="primary" variant="outlined" class="w-full" :pt="{
+                        <Button v-if="item?.survey_status_id == 1" disabled :label="t('ตรวจสอบแล้ว')"
+                            :loading="isloadingAxi" severity="primary" variant="outlined" class="w-full" :pt="{
                                 label: {
                                     class: 'text-primary-main'
                                 },
@@ -40,8 +43,8 @@
                                 },
 
                             }" />
-                        <Button v-else :label="t('ตรวจสอบ')" :loading="isloadingAxi" severity="primary" variant="outlined"
-                            class="w-full" :pt="{
+                        <Button v-else :label="t('ตรวจสอบ')" :loading="isloadingAxi" severity="primary"
+                            variant="outlined" class="w-full" :pt="{
                                 label: {
                                     class: 'text-primary-main'
                                 },

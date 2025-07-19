@@ -1,7 +1,8 @@
 <template>
     <div class="bg-zinc-100 min-h-screen">
-        <van-nav-bar :title="t('จัดการแหล่งท่องเที่ยว')" left-arrow @click-left="navigateTo('/inspector/home')">
-        </van-nav-bar>
+
+        <LayoutsBaseHeader :title="t('จัดการแหล่งท่องเที่ยว')" :showBack="true" backTo="/inspector/home">
+        </LayoutsBaseHeader>
         <div class="flex justify-between flex-wrap gap-2 bg-white px-4 py-3">
             <h1 class="text-xl font-semibold">{{ t('แหล่งท่องเที่ยว') }} ({{ resSurveytouristwaiting.length }})</h1>
             <Select v-model="status_select" disabled :options="statusOptions" optionLabel="name" optionValue="id"

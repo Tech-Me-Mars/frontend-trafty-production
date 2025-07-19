@@ -1,8 +1,10 @@
 <template>
   <div class="min-h-screen bg-zinc-50">
     <!-- Header Section -->
-    <van-nav-bar :title="t('ใบเตือน')" left-arrow @click-left="goBack">
-    </van-nav-bar>
+    <!-- <van-nav-bar :title="t('ใบเตือน')" left-arrow @click-left="goBack">
+    </van-nav-bar> -->
+    <LayoutsBaseHeader :title="t('ใบเตือน')" :showBack="true" :backTo="goBack()">
+        </LayoutsBaseHeader>
 
     <!-- Tabs Section -->
     <section class="">
@@ -80,11 +82,11 @@ const goBack = () => {
   const previousPage = document.referrer; // URL ของหน้าก่อนหน้า
 
   if (previousPage.includes(`/vendor/manage-business/home/${id}`)) {
-    router.back(); // ย้อนกลับไปหน้าที่แล้ว
+    return '' // ย้อนกลับไปหน้าที่แล้ว
   } else if (previousPage.includes(`/vendor/notifications/${id}`)) {
-    router.back(); // ย้อนกลับไปหน้าที่แล้ว
+    return '' // ย้อนกลับไปหน้าที่แล้ว
   } else {
-    router.push(`/vendor/manage-business/home/${id}`); // ถ้าไม่ใช่ทั้งสอง ให้ไปที่หน้า home
+    return `/vendor/manage-business/home/${id}`; // ถ้าไม่ใช่ทั้งสอง ให้ไปที่หน้า home
   }
 };
 

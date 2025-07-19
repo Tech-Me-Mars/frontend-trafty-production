@@ -1,8 +1,10 @@
 <template>
     <div class="min-h-screen bg-zinc-50">
       <!-- Header Section -->
-      <van-nav-bar :title="t('รายละเอียดใบเตือนที่ส่งไป')" left-arrow @click-left="navigateTo('/inspector/home')">
-      </van-nav-bar>
+      <!-- <van-nav-bar :title="t('รายละเอียดใบเตือนที่ส่งไป')" left-arrow @click-left="navigateTo('/inspector/home')">
+      </van-nav-bar> -->
+                  <LayoutsBaseHeader :title="t('รายละเอียดใบเตือนที่ส่งไป')" :showBack="true" backTo="/inspector/home">
+        </LayoutsBaseHeader>
   
 
       <section class="p-4">

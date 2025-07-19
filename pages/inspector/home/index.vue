@@ -1,6 +1,6 @@
 <script setup>
 definePageMeta({
-  middleware: ["auth"],
+    middleware: ["auth"],
 });
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
@@ -12,11 +12,11 @@ const route = useRoute();
 const alertToast = ref({});
 import * as dataApi from "./api/data.js";
 
-const resDataComon =ref()
-const loadDataComon= async ()=>{
+const resDataComon = ref()
+const loadDataComon = async () => {
     try {
-        const res= await dataApi.getNotificationPolice();
-        resDataComon.value =res.data.data;
+        const res = await dataApi.getNotificationPolice();
+        resDataComon.value = res.data.data;
     } catch (error) {
         alertToast.value = {
             title: t('"ล้มเหลว"'),
@@ -27,7 +27,7 @@ const loadDataComon= async ()=>{
         };
     }
 }
-onMounted(()=>{
+onMounted(() => {
     loadDataComon();
 })
 const onClick = (title) => {
@@ -55,23 +55,31 @@ const onClick = (title) => {
 </style>
 <template>
     <div class="bg-zinc-100 min-h-screen">
-        <van-nav-bar :title="t('Smart Travel Safety')">
+        <!-- <van-nav-bar :title="t('Smart Travel Safety')">
             <template #left>
                 <drawer-menu />
             </template>
-            <template #right>
+<template #right>
                 <div class="flex items-center gap-2">
-                    <!-- <i class="fa-solid fa-magnifying-glass" style="color: white;font-size: 22px;"></i> -->
                     <div class="border p-0.5 rounded-md w-7 flex justify-center items-center">
                     <i class="fa-regular fa-comment-dots" style="color: white;font-size: 22px;"></i>
                 </div>
                 </div>
             </template>
-        </van-nav-bar>
+</van-nav-bar> -->
+        <LayoutsBaseHeader :title="t('Smart Travel Safety')" showMenu :showBack="true">
+            <template #right>
+                <div class="flex items-center gap-2">
+                    <div class="border p-0.5 rounded-md w-7 flex justify-center items-center">
+                        <i class="fa-regular fa-comment-dots" style="color: white;font-size: 22px;"></i>
+                    </div>
+                </div>
+            </template>
+        </LayoutsBaseHeader>
         <!-- Header -->
         <div class="bg-white">
             <widgetMap />
-            
+
 
             <div class="flex items-center justify-between mb-4 pt-4">
                 <div class="font-bold text-lg">{{ t('การจัดการข้อมูล') }}</div>
@@ -108,27 +116,29 @@ const onClick = (title) => {
             </van-cell> -->
             <van-cell :title="t('จัดการแหล่งท่องเที่ยว')" is-link @click="navigateTo('/inspector/list/tourlist')">
                 <template #value>
-                    <span class="relative" v-if="resDataComon?.notify_tourist>0">
+                    <span class="relative" v-if="resDataComon?.notify_tourist > 0">
                         <span class="absolute top-0 right-4">
                             <Badge :value="resDataComon?.notify_tourist" severity="danger" class="bg-red-700"></Badge>
                         </span>
                     </span>
                 </template>
             </van-cell>
-            <van-cell :title="t('จัดการธุรกิจในแหล่งท่องเที่ยว')" is-link @click="navigateTo('/inspector/list/business-tourlist')">
+            <van-cell :title="t('จัดการธุรกิจในแหล่งท่องเที่ยว')" is-link
+                @click="navigateTo('/inspector/list/business-tourlist')">
                 <template #value>
                     <span class="relative">
-                        <span class="absolute top-0 right-4" v-if="resDataComon?.notify_business_tourist>0">
-                            <Badge :value="resDataComon?.notify_business_tourist" severity="danger" class="bg-red-700"></Badge>
+                        <span class="absolute top-0 right-4" v-if="resDataComon?.notify_business_tourist > 0">
+                            <Badge :value="resDataComon?.notify_business_tourist" severity="danger" class="bg-red-700">
+                            </Badge>
                         </span>
                     </span>
                 </template>
             </van-cell>
-            <van-cell :title="t('ตรวจสอบคอมเมนท์')" is-link  />
+            <van-cell :title="t('ตรวจสอบคอมเมนท์')" is-link />
             <van-cell :title="t('จัดการใบเตือน')" is-link @click="navigateTo('/inspector/warning-list')">
                 <template #value>
                     <span class="relative">
-                        <span class="absolute top-0 right-4" v-if="resDataComon?.notify_warning>0">
+                        <span class="absolute top-0 right-4" v-if="resDataComon?.notify_warning > 0">
                             <Badge :value="resDataComon?.notify_warning" severity="danger" class="bg-red-700"></Badge>
                         </span>
                     </span>

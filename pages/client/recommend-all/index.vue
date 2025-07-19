@@ -9,8 +9,9 @@
 </style>
 <template>
     <div class="bg-zinc-100 min-h-screen">
-        <van-nav-bar :title="t('สถานที่แนะนำ')" left-arrow @click-left="navigateTo(`/`)">
-        </van-nav-bar>
+
+                   <LayoutsBaseHeader title="สถานที่แนะนำ" :showBack="true" :back-to="`/`">
+        </LayoutsBaseHeader>
 
         <section class="p-4">
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"

@@ -20,8 +20,25 @@
 
             </template>
         </van-nav-bar> -->
-        <LayoutsBaseHeader :title="t('ธุรกิจในแหล่งท่องเที่ยว')">
+        <!-- <LayoutsBaseHeader :title="t('ธุรกิจในแหล่งท่องเที่ยว')">
             <template #right>
+                <div class="flex items-center gap-2">
+                    <div class="border p-0.5 rounded-md w-7 flex justify-center items-center">
+                        <i class="fa-regular fa-comment-dots" style="color: white;font-size: 22px;"></i>
+                    </div>
+                    <div class="border p-0.5 rounded-md w-7 flex justify-center items-center">
+                        <van-badge :dot="resNotify.length > 0 ? true : false">
+                            <i @click="navigateTo(`/vendor/notifications/${route.params.id}`)"
+                                class="fa-regular fa-bell" style="color: white;font-size: 22px;"></i>
+                        </van-badge>
+                    </div>
+
+                </div>
+
+            </template>
+        </LayoutsBaseHeader> -->
+                    <LayoutsBaseHeader :title="t('ธุรกิจในแหล่งท่องเที่ยว')" >
+                        <template #right>
                 <div class="flex items-center gap-2">
                     <div class="border p-0.5 rounded-md w-7 flex justify-center items-center">
                         <i class="fa-regular fa-comment-dots" style="color: white;font-size: 22px;"></i>

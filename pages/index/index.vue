@@ -1,5 +1,5 @@
 <template>
-  <van-nav-bar title="Smart Travel Safety">
+  <!-- <van-nav-bar title="Smart Travel Safety">
     <template #left>
       <img src="/image/logo_erp.png" style="width: 50px;" alt="">
       <drawer-menu />
@@ -7,11 +7,18 @@
     <template #right>
       <div class="flex items-center gap-2">
         <change-lang-mock />
-        <!-- <i class="fa-solid fa-magnifying-glass" style="color: white;font-size: 22px;"></i> -->
         <i class="fa-regular fa-circle-user" style="color: white;font-size: 22px;"></i>
       </div>
     </template>
-  </van-nav-bar>
+  </van-nav-bar> -->
+   <LayoutsBaseHeader title="Smart Travel Safety" showMenu showIcon>
+        <template #right>
+      <div class="flex items-center gap-2">
+        <change-lang-mock />
+        <i class="fa-regular fa-circle-user" style="color: white;font-size: 22px;"></i>
+      </div>
+    </template>
+        </LayoutsBaseHeader>
 
   <div class="p-4">
     <!-- <Select v-model="addressLocation" :options="listDropDownAddress" optionLabel="name" optionValue="id" class="w-full">

@@ -24,9 +24,11 @@
     <button class="p-5 border-2" type="submit">Submit</button>
   </Form> -->
   <div class="bg-zinc-100 min-h-screen">
-    <van-nav-bar :title="t('แบบตรวจสอบด้านความปลอดภัย')" left-arrow
+    <!-- <van-nav-bar :title="t('แบบตรวจสอบด้านความปลอดภัย')" left-arrow
       @click-left="navigateTo(`/vendor/manage-business/home/${route.params.id}`)">
-    </van-nav-bar>
+    </van-nav-bar> -->
+                <LayoutsBaseHeader :title="t('แบบตรวจสอบด้านความปลอดภัย')" :showBack="true" :back-to="`/vendor/manage-business/home/${route.params.id}`">
+        </LayoutsBaseHeader>
     <div class="p-4 ">
       <Form :validation-schema="yupSchema" @submit="onSubmit">
         <div class="flex space-x-5 items-center justify-center mb-8">

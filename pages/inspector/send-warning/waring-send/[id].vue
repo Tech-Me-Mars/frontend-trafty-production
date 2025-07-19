@@ -1,11 +1,17 @@
 <template>
     <div class="min-h-screen bg-zinc-50">
-        <van-nav-bar :title="t('ส่งใบเตือน')">
+        <!-- <van-nav-bar :title="t('ส่งใบเตือน')">
             <template #right>
                 <i @click="navigateTo('/inspector/home')" class="fa-solid fa-xmark"
                     style="color: white;font-size: 26px;"></i>
             </template>
-        </van-nav-bar>
+</van-nav-bar> -->
+        <LayoutsBaseHeader :title="t('ส่งใบเตือน')">
+                        <template #right>
+                <i @click="navigateTo('/inspector/home')" class="fa-solid fa-xmark"
+                    style="color: white;font-size: 26px;"></i>
+            </template>
+        </LayoutsBaseHeader>
         <!-- Form Section -->
         <Form @submit="handleNext">
             <div class="p-4">
@@ -36,17 +42,19 @@
                 </div>
 
                 <div class="p-4 card mb-10">
-                    <div v-for="(item,index) in resData?.survey_audit_police_details" :key="index">
+                    <div v-for="(item, index) in resData?.survey_audit_police_details" :key="index">
                         <h2 class="text-base font-semibold mb-2">
                             {{ item?.topic_name }}
                         </h2>
-                        <ul class="space-y-3" >
-                            <li class="flex items-start space-x-3" v-for="(item_sub,index_sub) in item?.question" :key="index_sub">
-                                <i v-if="item_sub?.choice_text == 'มี'" class="fa-solid fa-circle-check text-blue-700 mt-1"></i>
+                        <ul class="space-y-3">
+                            <li class="flex items-start space-x-3" v-for="(item_sub, index_sub) in item?.question"
+                                :key="index_sub">
+                                <i v-if="item_sub?.choice_text == 'มี'"
+                                    class="fa-solid fa-circle-check text-blue-700 mt-1"></i>
                                 <i v-else class="fa-solid fa-circle-xmark text-red-600 mt-1"></i>
                                 <span>{{ item_sub?.audit_questions_text }}</span>
                             </li>
-                            
+
                         </ul>
                         <hr class="border-b mx-4 my-5" />
                     </div>
@@ -55,23 +63,24 @@
 
 
                 <!-- Submit Button -->
-                <Button :loading="isloadingAxi" type="submit" :label="t('ส่งใบเตือน')" severity="primary" rounded class="w-full" :pt="{
-                    root: {
-                        class: '!border-primary-main'
-                    },
-                }" />
+                <Button :loading="isloadingAxi" type="submit" :label="t('ส่งใบเตือน')" severity="primary" rounded
+                    class="w-full" :pt="{
+                        root: {
+                            class: '!border-primary-main'
+                        },
+                    }" />
 
             </div>
         </Form>
 
-    <MyToast :data="alertToast" />
+        <MyToast :data="alertToast" />
 
     </div>
 </template>
 
 <script setup>
 definePageMeta({
-  middleware: ["auth"],
+    middleware: ["auth"],
 });
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
@@ -81,7 +90,7 @@ const route = useRoute();
 const router = useRouter();
 
 
-const alertToast =ref({})
+const alertToast = ref({})
 import * as dataApi from "../api/data.js";
 
 import { useFieldArray, useForm, Form, useField } from "vee-validate";
@@ -89,7 +98,7 @@ import { toTypedSchema } from "@vee-validate/zod";
 import * as zod from "zod";
 
 
-const resData=ref()
+const resData = ref()
 const loadData = async () => {
     try {
         const res = await dataApi.getSuveyAuditPolice(route.params.id);
@@ -137,7 +146,7 @@ const handleNext = handleSubmit(async () => {
             msg: res.data.message,
         }
         // setTimeout(() => {
-            navigateTo(`/inspector/send-warning/success/${route.params.id}`)
+        navigateTo(`/inspector/send-warning/success/${route.params.id}`)
         // }, 1000);
     } catch (error) {
         alertToast.value = {

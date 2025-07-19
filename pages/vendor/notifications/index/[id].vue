@@ -3,6 +3,8 @@
         <!-- Header Section -->
         <van-nav-bar :title="t('แจ้งเตือน')" left-arrow @click-left="router.go(-1)">
         </van-nav-bar>
+                <LayoutsBaseHeader :title="t('แจ้งเตือน')" :showBack="true" >
+        </LayoutsBaseHeader>
 
         <!-- Notification Section -->
         <section class="space-y-2">

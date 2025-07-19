@@ -1,88 +1,67 @@
 <template>
-    <div class="min-h-screen bg-gray-100">
+    <div class="min-h-screen bg-white">
         <!-- Header -->
-        <div class="bg-blue-900 text-white p-4">
-            <div class="flex items-center">
-                <van-icon name="arrow-left" size="20" class="mr-3" @click="goBack" />
-                <h1 class="text-lg font-medium">มาตรฐานความปลอดภัย</h1>
-            </div>
-        </div>
+        <LayoutsBaseHeader title="มาตรฐานความปลอดภัย" showBack></LayoutsBaseHeader>
+
 
         <!-- Main Content -->
-        <div class="px-4 py-6">
+        <div class="">
             <!-- Status Header -->
-            <div class="text-center mb-8">
-                <p class="text-gray-600 text-sm mb-2">การประเมินองคุณ</p>
+            <div class="text-center mb-8 bg-zinc-100 h-[10rem] pt-5">
+                <p class="text-gray-800 text-sm mb-2">การประเมินองคุณ</p>
                 <h2 class="text-xl font-semibold text-gray-800">ค่อนข้างดี</h2>
             </div>
 
             <!-- Progress Circle -->
-            <div class="bg-white rounded-lg p-6 mb-6 shadow-sm">
-                <h3 class="text-lg font-medium mb-4">ประเภทรับอาหาร</h3>
+            <div class="bg-white rounded-lg p-2  border-2 border-gray-100 -mt-[6.5rem]  max-w-[22rem] mx-auto">
+                <h3 class="text-lg font-medium mb-2">ประเภทรับอาหาร</h3>
 
-                <div class="flex justify-center mb-6">
+                <div class="flex justify-center">
                     <!-- Gauge Component -->
-                    <div class="relative size-40">
-                        <svg class="size-full rotate-180" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                     <!-- size-36 -->
+                    <div class="relative  w-[10rem] h-[5.5rem]">
+                        <svg class=" rotate-180" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
                             <!-- Background Circle (Gauge) -->
                             <circle cx="18" cy="18" r="16" fill="none"
-                                class="stroke-current text-gray-200 dark:text-neutral-700" stroke-width="1"
+                                class="stroke-current text-gray-200 dark:text-[#e5e7eb]" stroke-width="2"
                                 stroke-dasharray="50 100" stroke-linecap="round"></circle>
 
                             <!-- Gauge Progress -->
                             <circle cx="18" cy="18" r="16" fill="none"
-                                class="stroke-current text-blue-600 dark:text-blue-500" stroke-width="1.5"
+                                class="stroke-current text-[#fccc0c] dark:text-[#fccc0c]" stroke-width="2"
                                 stroke-dasharray="37.5 100" stroke-linecap="round"></circle>
                         </svg>
 
                         <!-- Value Text -->
                         <div class="absolute top-9 start-1/2 transform -translate-x-1/2 text-center">
-                            <span class="text-3xl font-bold text-blue-600 dark:text-blue-500">75</span>
-                            <span class="text-sm text-blue-600 dark:text-blue-500 block">Score</span>
+                            <span class="text-2xl font-bold text-[#000000] dark:text-[#000000]">87%</span>
+                            <!-- <span class="text-sm text-[#000000] dark:text-[#000000] block">Score</span> -->
                         </div>
                     </div>
-                    <!-- End Gauge Component -->
-                    <!-- <div class="relative">
-     
-              <svg class="w-32 h-20" viewBox="0 0 120 60">
-  
-                <path
-                  d="M 10 50 A 40 40 0 0 1 110 50"
-                  fill="none"
-                  stroke="#e5e7eb"
-                  stroke-width="8"
-                  stroke-linecap="round"
-                />
-       
-                <path
-                  d="M 10 50 A 40 40 0 0 1 110 50"
-                  fill="none"
-                  stroke="#f59e0b"
-                  stroke-width="8"
-                  stroke-linecap="round"
-                  :stroke-dasharray="`${semiCircumference} ${semiCircumference}`"
-                  :stroke-dashoffset="semiCircumference - (progress / 100) * semiCircumference"
-                  class="transition-all duration-1000 ease-out"
-                />
-              </svg>
 
-              <div class="absolute inset-0 flex items-center justify-center pt-4">
-                <span class="text-3xl font-bold text-gray-800">{{ progress }}%</span>
-              </div>
-            </div> -->
                 </div>
 
-                <!-- Tab Navigation -->
-                <div class="flex border-b border-gray-200 mb-4">
-                    <button
-                        class="flex-1 py-2 text-center text-sm font-medium border-b-2 border-blue-500 text-blue-600">
-                        อยู่ในเกณฑ์ดี
-                    </button>
-                    <button class="flex-1 py-2 text-center text-sm font-medium text-gray-500">
-                        ต้องปรับปรุง
-                    </button>
-                </div>
+
             </div>
+
+            <!-- Tab Navigation -->
+            <!-- <div class="flex border-b border-gray-200 mb-4">
+                <button class="flex-1 py-2 text-center text-sm font-medium border-b-2 border-blue-500 text-blue-600">
+                    อยู่ในเกณฑ์ดี
+                </button>
+                <button class="flex-1 py-2 text-center text-sm font-medium text-gray-500">
+                    ต้องปรับปรุง
+                </button>
+            </div> -->
+        <van-tabs v-model:active="active" animated swipeable color="#281c74">
+                <van-tab title="อยู่ในเกณฑ์ดี">
+
+                    </van-tab>
+                                    <van-tab title="ต้องปรับปรุง">
+
+                    </van-tab>
+            </van-tabs>
+
 
             <!-- Assessment Details -->
             <div class="space-y-4">
@@ -102,6 +81,9 @@
 
                 <!-- Item 2 -->
                 <div class="bg-white rounded-lg p-4 shadow-sm">
+                                        <h4 class="font-medium text-gray-800 mb-3">
+                        2. ด้านความปลอดภัยในชีวิตและทรัพย์สินของนักท่องเที่ยว
+                    </h4>
                     <p class="text-sm text-gray-600">
                         มีการติดตั้งกล้องวงจรปิด สามารถใช้ได้อย่างและ
                         ตรวจสอบย้อนหลัง หลังได้
@@ -114,7 +96,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-
+const active = ref(0)
 // Data
 const progress = ref(0)
 const targetProgress = 100
@@ -139,4 +121,13 @@ onMounted(() => {
 .transition-all {
     transition: all 1s ease-out;
 }
+
+.van-tabs__line {
+  width: 120px !important;
+  background: #281c74 !important;
+}
+.van-tab {
+  --van-tab-active-text-color: #281c74 !important
+}
+
 </style>

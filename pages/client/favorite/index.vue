@@ -9,8 +9,8 @@
 </style>
 
 <template>
-    <van-nav-bar :title="t('รายการโปรด')" left-arrow @click-left="router.go(-1)">
-    </van-nav-bar>
+            <LayoutsBaseHeader :title="t('รายการโปรด')" :showBack="true">
+        </LayoutsBaseHeader>
 
     <div class="p-4">
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 max-w-4xl mx-auto">

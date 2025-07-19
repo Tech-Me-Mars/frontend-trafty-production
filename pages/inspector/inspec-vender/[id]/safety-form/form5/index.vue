@@ -173,8 +173,10 @@ const stepsBar = ref([
 </style>
 <template>
     <div class="bg-zinc-100 min-h-screen">
-        <van-nav-bar :title="t('แบบตรวจสอบด้านความปลอดภัย')" left-arrow @click-left="router.go(-1)">
-        </van-nav-bar>
+        <!-- <van-nav-bar :title="t('แบบตรวจสอบด้านความปลอดภัย')" left-arrow @click-left="router.go(-1)">
+        </van-nav-bar> -->
+            <LayoutsBaseHeader :title="t('แบบตรวจสอบด้านความปลอดภัย')"  :showBack="true">
+        </LayoutsBaseHeader>
         <div class="p-4 ">
             <div class="flex space-x-5 items-center justify-center mb-8">
                 <div v-for="(item, index) in stepsBar" :key="index"

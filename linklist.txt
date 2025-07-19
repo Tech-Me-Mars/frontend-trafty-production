@@ -18,6 +18,9 @@ https://dev.sts-nat.com/store-page/chat/create-send-message
 https://dev.sts-nat.com/store-page/suggestions
 https://dev.sts-nat.com/store-page/sum-scor-survey-success
 https://dev.sts-nat.com/store-page/sum-scor-survey-error
+https://dev.sts-nat.com/store-page/summary-evaluate-survey
+
+
 
 
 

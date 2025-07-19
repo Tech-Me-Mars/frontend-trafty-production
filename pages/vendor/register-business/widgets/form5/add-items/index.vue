@@ -1,6 +1,6 @@
 <script setup>
 definePageMeta({
-  middleware: ["auth"],
+    middleware: ["auth"],
 });
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
@@ -51,41 +51,48 @@ const handleNext = handleSubmit((values) => {
 </style>
 <template>
     <div class="bg-zinc-100 min-h-screen">
-        <van-nav-bar :title="t('เพิ่มรายการ')" left-arrow @click-left="formStore.goToPage(6)">
-        </van-nav-bar>
+        <LayoutsBaseHeader :title="t('เพิ่มรายการ')">
+            <template #left>
+                <ButtonIconBack @click="formStore.goToPage(6)" />
+            </template>
+        </LayoutsBaseHeader>
         <div class="p-4 ">
 
             <Form @submit="handleNext">
-            <div class="card pt-5 mb-10">
-                <!-- Title -->
-                <h2 class="font-bold text-lg mb-3 ">{{ t('ธุรกิจในแหล่งท่องเที่ยว') }}</h2>
+                <div class="card pt-5 mb-10">
+                    <!-- Title -->
+                    <h2 class="font-bold text-lg mb-3 ">{{ t('ธุรกิจในแหล่งท่องเที่ยว') }}</h2>
 
-                <!-- List of Businesses -->
-                <div class="space-y-4">
-                    <div>
-                        <label class="label-input">{{ t('ชื่อรายการ') }}</label>
-                        <InputText v-model="business_list_name" :placeholder="t('ชื่อรายการ')" class="w-full custom-border" :invalid="errors?.business_list_name ? true : false" />
-                        <p class="error-text" v-if="errors?.business_list_name">{{ errors?.business_list_name }}</p>
+                    <!-- List of Businesses -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="label-input">{{ t('ชื่อรายการ') }}</label>
+                            <InputText v-model="business_list_name" :placeholder="t('ชื่อรายการ')"
+                                class="w-full custom-border" :invalid="errors?.business_list_name ? true : false" />
+                            <p class="error-text" v-if="errors?.business_list_name">{{ errors?.business_list_name }}</p>
+
+                        </div>
+                        <div>
+                            <label class="label-input">{{ t('ราคา') }}</label>
+                            <InputText v-model="business_list_price" :placeholder="t('ราคา')"
+                                class="w-full custom-border" :invalid="errors?.business_list_price ? true : false" />
+                            <p class="error-text" v-if="errors?.business_list_price">{{ errors?.business_list_price }}
+                            </p>
+
+                        </div>
 
                     </div>
-                    <div>
-                        <label class="label-input">{{ t('ราคา') }}</label>
-                        <InputText v-model="business_list_price" :placeholder="t('ราคา')" class="w-full custom-border" :invalid="errors?.business_list_price ? true : false" />
-                        <p class="error-text" v-if="errors?.business_list_price">{{ errors?.business_list_price }}</p>
-
-                    </div>
-
                 </div>
-            </div>
 
-            <!-- <NuxtLink to="/vendor/register-business/form5"> -->
-            <Button :loading="isloadingAxi" :label="t('บันทึก')" severity="primary" type="submit" rounded class="w-full" :pt="{
-                root: {
-                    class: '!border-primary-main'
-                },
-            }" />
+                <!-- <NuxtLink to="/vendor/register-business/form5"> -->
+                <Button :loading="isloadingAxi" :label="t('บันทึก')" severity="primary" type="submit" rounded
+                    class="w-full" :pt="{
+                        root: {
+                            class: '!border-primary-main'
+                        },
+                    }" />
 
-        </Form>
+            </Form>
             <!-- </NuxtLink> -->
         </div>
 

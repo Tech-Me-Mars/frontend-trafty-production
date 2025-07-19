@@ -1,9 +1,11 @@
 <template>
     <div class="min-h-screen bg-zinc-50">
         <!-- Header Section -->
-        <van-nav-bar :title="t('จัดการใบเตือน')" left-arrow
+        <!-- <van-nav-bar :title="t('จัดการใบเตือน')" left-arrow
             @click-left="navigateTo(`/vendor/warning-list/${route.params.id}`)">
-        </van-nav-bar>
+        </van-nav-bar> -->
+        <LayoutsBaseHeader :title="t('จัดการใบเตือน')" :showBack="true" :backTo="`/vendor/warning-list/${route.params.id}`">
+        </LayoutsBaseHeader>
 
         <!-- <section class="bg-white shadow-sm p-4 mb-5">
             <div class="!border !border-black rounded-sm card ">

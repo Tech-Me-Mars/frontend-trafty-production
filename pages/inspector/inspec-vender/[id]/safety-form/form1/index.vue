@@ -1,6 +1,6 @@
 <script setup>
 definePageMeta({
-  middleware: ["auth"],
+    middleware: ["auth"],
 });
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
@@ -30,7 +30,7 @@ const validationSchema = toTypedSchema(
         police_name: zod.string().nonempty(requireValue).default(""),
         police_headquarters_name: zod.string().nonempty(requireValue).default(""),
         safety_audit_time: zod.string().nonempty(requireValue).default(""),
-        safety_audit_date:zod.date({
+        safety_audit_date: zod.date({
             required_error: requireValue,
             invalid_type_error: requireValue,
         }),
@@ -61,20 +61,20 @@ const loadBusiness = async () => {
         resBusiness.value = res.data.data;
         business_id.value = resBusiness.value.id
         shop_name.value = resBusiness.value.shop_name
-        safety_audit_location.value  = resBusiness.value.shop_address
+        safety_audit_location.value = resBusiness.value.shop_address
     } catch (error) {
         console.error(error)
 
     }
 }
 
-const loadAuditTime = async ()=>{
+const loadAuditTime = async () => {
     try {
         const res = await dataApi.geyTimeSurvey(route.params.id)
         security_audit_times.value = res.data.data?.security_audit_times
     } catch (error) {
         console.error(error)
-        
+
     }
 }
 onMounted(() => {
@@ -101,7 +101,7 @@ const handleNext = handleSubmit((values) => {
     localStorage.setItem("audit_safety_audit_date", format(safety_audit_date.value, "yyyy-MM-dd"));
     localStorage.setItem("audit_security_audit_times", security_audit_times.value);
     localStorage.setItem("audit_safety_audit_location", safety_audit_location.value);
-    
+
     localStorage.setItem("audit_safety_audit_time", safety_audit_time.value);
 
     router.push(`/inspector/inspec-vender/${route.params.id}/safety-form/form2`);
@@ -134,8 +134,10 @@ const stepsBar = ref([
 </style>
 <template>
     <div class="bg-zinc-100 min-h-screen">
-        <van-nav-bar :title="t('แบบตรวจสอบด้านความปลอดภัย')" left-arrow @click-left="router.go(-1)">
-        </van-nav-bar>
+        <!-- <van-nav-bar :title="t('แบบตรวจสอบด้านความปลอดภัย')" left-arrow @click-left="router.go(-1)">
+        </van-nav-bar> -->
+        <LayoutsBaseHeader :title="t('แบบตรวจสอบด้านความปลอดภัย')"  :showBack="true">
+        </LayoutsBaseHeader>
         <div class="p-4 ">
             <div class="flex space-x-5 items-center justify-center mb-8">
                 <div v-for="(item, index) in stepsBar" :key="index"
@@ -162,7 +164,7 @@ const stepsBar = ref([
                         <div>
                             <label class="label-input">{{ t('กก') }}</label>
                             <InputText v-model="police_name" placeholder="-" class="w-full custom-border"
-                            :invalid="errors?.police_name ? true : false" />
+                                :invalid="errors?.police_name ? true : false" />
                             <p class="error-text" v-if="errors?.police_name">{{ errors?.police_name }}</p>
 
                         </div>
@@ -171,25 +173,30 @@ const stepsBar = ref([
                         <div>
                             <label class="label-input">{{ t('กองบังคับการตำรวจท่องเที่ยว') }}</label>
                             <InputText v-model="police_headquarters_name" placeholder=""
-                            :invalid="errors?.police_headquarters_name ? true : false" class="w-full custom-border" />
-                            <p class="error-text" v-if="errors?.police_headquarters_name">{{ errors?.police_headquarters_name }}</p>
+                                :invalid="errors?.police_headquarters_name ? true : false"
+                                class="w-full custom-border" />
+                            <p class="error-text" v-if="errors?.police_headquarters_name">{{
+                                errors?.police_headquarters_name }}
+                            </p>
 
                         </div>
 
                         <!-- ครั้งที่ -->
                         <div>
                             <label class="label-input">{{ t('ครั้งที่') }}</label>
-                            <InputNumber   v-model="security_audit_times" placeholder="" class="w-full custom-border"  inputClass="w-full custom-border"
-                            :invalid="errors?.security_audit_times ? true : false" :useGrouping="false"/>
-                            <p class="error-text" v-if="errors?.security_audit_times">{{ errors?.security_audit_times }}</p>
+                            <InputNumber v-model="security_audit_times" placeholder="" class="w-full custom-border"
+                                inputClass="w-full custom-border" :invalid="errors?.security_audit_times ? true : false"
+                                :useGrouping="false" />
+                            <p class="error-text" v-if="errors?.security_audit_times">{{ errors?.security_audit_times }}
+                            </p>
 
                         </div>
 
                         <!-- เจ้าหน้าที่ผู้ปฏิบัติ -->
                         <div>
                             <label class="label-input">{{ t('เจ้าหน้าที่ผู้ปฏิบัติ') }}</label>
-                            <InputText v-model="police_name" placeholder="" :invalid="errors?.police_name ? true : false"
-                                class="w-full custom-border" />
+                            <InputText v-model="police_name" placeholder=""
+                                :invalid="errors?.police_name ? true : false" class="w-full custom-border" />
                             <p class="error-text" v-if="errors?.police_name">{{ errors?.police_name }}</p>
 
                         </div>
@@ -197,7 +204,7 @@ const stepsBar = ref([
                         <!-- วันที่ตรวจสอบ -->
                         <div>
                             <label class="label-input">{{ t('วันที่ตรวจสอบ') }}</label>
-                            <DatePicker v-model="safety_audit_date" dateFormat="dd-mm-yy"   placeholder="" class="w-full"
+                            <DatePicker v-model="safety_audit_date" dateFormat="dd-mm-yy" placeholder="" class="w-full"
                                 inputClass="custom-border" :invalid="errors?.safety_audit_date ? true : false" />
                             <p class="error-text" v-if="errors?.safety_audit_date">{{ errors?.safety_audit_date }}</p>
 
@@ -206,18 +213,20 @@ const stepsBar = ref([
                         <!-- เวลา -->
                         <div>
                             <label class="label-input">{{ t('เวลา') }}</label>
-            <InputMask v-model="safety_audit_time" :placeholder="`${t('ชั่วโมง')}:${t('นาที')}`" mask="99:99" slotChar="hh:mm" class="w-full custom-border" 
-            :invalid="errors?.safety_audit_time ? true : false" />
-            <p class="error-text" v-if="errors?.safety_audit_time">{{ errors?.safety_audit_time }}</p>
+                            <InputMask v-model="safety_audit_time" :placeholder="`${t('ชั่วโมง')}:${t('นาที')}`"
+                                mask="99:99" slotChar="hh:mm" class="w-full custom-border"
+                                :invalid="errors?.safety_audit_time ? true : false" />
+                            <p class="error-text" v-if="errors?.safety_audit_time">{{ errors?.safety_audit_time }}</p>
 
                         </div>
 
                         <!-- สถานที่ออกตรวจ -->
                         <div>
                             <label class="label-input">{{ t('สถานที่ออกตรวจ') }}</label>
-                            <InputText v-model="safety_audit_location" placeholder=""
-                                class="w-full custom-border" :invalid="errors?.safety_audit_location ? true : false" />
-            <p class="error-text" v-if="errors?.safety_audit_location">{{ errors?.safety_audit_location }}</p>
+                            <InputText v-model="safety_audit_location" placeholder="" class="w-full custom-border"
+                                :invalid="errors?.safety_audit_location ? true : false" />
+                            <p class="error-text" v-if="errors?.safety_audit_location">{{ errors?.safety_audit_location
+                                }}</p>
 
                         </div>
                     </div>
@@ -226,11 +235,12 @@ const stepsBar = ref([
 
 
                 <!-- <NuxtLink to="/inspector/inspec-vender/1/safety-form/form2"> -->
-                <Button :loading="isloadingAxi" :label="t('ถัดไป')" type="submit" severity="primary" rounded class="w-full" :pt="{
-                    root: {
-                        class: '!border-primary-main'
-                    },
-                }" />
+                <Button :loading="isloadingAxi" :label="t('ถัดไป')" type="submit" severity="primary" rounded
+                    class="w-full" :pt="{
+                        root: {
+                            class: '!border-primary-main'
+                        },
+                    }" />
                 <!-- </NuxtLink> -->
             </Form>
         </div>

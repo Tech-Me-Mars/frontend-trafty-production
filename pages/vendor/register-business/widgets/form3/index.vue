@@ -1,6 +1,10 @@
 <template>
   <div class="bg-zinc-100 min-h-screen">
-    <van-nav-bar :title="t('ข้อมูลหน่วยงาน')" left-arrow @click-left="formStore.prevPage()" />
+    <LayoutsBaseHeader :title="t('ข้อมูลธุรกิจ')">
+            <template #left>
+                <ButtonIconBack @click="formStore.prevPage()" />
+            </template>
+        </LayoutsBaseHeader>
 
     <div class="p-4">
       <van-tabs v-model:active="activeLang" animated swipeable color="#281c74">

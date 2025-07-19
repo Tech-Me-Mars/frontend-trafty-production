@@ -1,9 +1,7 @@
 <template>
     <div class=" bg-white min-h-screen">
-        <van-nav-bar :title="t('รายละเอียด')" left-arrow
-            @click-left="navigateTo(`/client/information/${route.params.id}`)">
-
-        </van-nav-bar>
+           <LayoutsBaseHeader title="รายละเอียด" :showBack="true" :back-to="`/client/information/${route.params.id}`">
+        </LayoutsBaseHeader>
         <section class="p-4">
 
             <!-- Overall Rating -->

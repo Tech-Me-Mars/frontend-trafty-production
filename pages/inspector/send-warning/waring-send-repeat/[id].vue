@@ -1,11 +1,17 @@
 <template>
     <div class="min-h-screen bg-zinc-50">
-        <van-nav-bar :title="t('ส่งใบเตือน')" left-arrow @click-left="router.go(-1)">
+        <!-- <van-nav-bar :title="t('ส่งใบเตือน')" left-arrow @click-left="router.go(-1)">
             <template #right>
                 <i @click="router.go(-1)" class="fa-solid fa-xmark"
                     style="color: white;font-size: 26px;"></i>
             </template>
-        </van-nav-bar>
+        </van-nav-bar> -->
+                <LayoutsBaseHeader :title="t('ส่งใบเตือน')" showBack>
+                                    <template #right>
+                <i @click="router.go(-1)" class="fa-solid fa-xmark"
+                    style="color: white;font-size: 26px;"></i>
+            </template>
+        </LayoutsBaseHeader>
         <!-- Form Section -->
         <Form @submit="handleNext">
             <div class="p-4">

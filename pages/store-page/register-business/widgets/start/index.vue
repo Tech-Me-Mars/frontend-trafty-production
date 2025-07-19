@@ -41,7 +41,12 @@ onMounted(() => {
 <template>
     <div class="bg-zinc-100 min-h-screen">
 
-        <LayoutsBaseHeader :title="t('ประเภทการให้บริการ')" :showBack="true" backTo="/vendor/my-business"></LayoutsBaseHeader>
+        <LayoutsBaseHeader :title="t('ประเภทการให้บริการ')" :showBack="true" backTo="/vendor/my-business">
+                        <template #right>
+                <i @click="navigateTo('/vendor/my-business')" class="fa-solid fa-xmark"
+                    style="color: white;font-size: 26px;"></i>
+            </template>
+        </LayoutsBaseHeader>
 
 
         <div class="p-4">
