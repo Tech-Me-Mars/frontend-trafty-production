@@ -30,8 +30,8 @@ const dateValue = computed({
     v-model="dateValue"
     :dateFormat="'yy-mm-dd'"
     :inputClass="'custom-border'"
-    style="width: 10rem;"
-    placeholder="yyyy-mm-dd"
+
+    placeholder="ปี-เดือน-วัน"
     showIcon
   />
 </template>

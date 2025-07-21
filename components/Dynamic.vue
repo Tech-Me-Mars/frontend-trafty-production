@@ -90,22 +90,27 @@ td.radio-table-cell {
 }
 </style>
 <template>
-  <!-- <pre>{{ surveyDataMap }}</pre> -->
+  <pre>{{ surveyDataMap }}</pre>
   <form @submit.prevent="submitAllForms" class="space-y-4">
     <template v-for="(formData, formKey) in surveyDataMap" :key="formKey">
       <!-- {{ formData }} -->
       <div class="bg-white rounded-lg shadow p-4 mb-4">
         <div class="text-base font-semibold mb-2">{{ formData.group_name_display }}</div>
         <div class="grid grid-cols-1 gap-4">
-          <template v-for="question in normalizeTableQuestions(formData.questions)" :key="question.id">
-            {{ question }}
+          <template v-for="question in (formData._question)" :key="question.id">
+
             <!-- Input field ปกติ -->
             <div v-if="question.question_type !== 'table'">
-              <v-col :cols="question.col_span" :md="question.col_span_md" :lg="question.col_span_lg" class="pa-1 m-0">
+              <div :class="[
+                'p-1 m-0',
+                `col-span-${question.col_span || 12}`,
+                `md:col-span-${question.col_span_md || question.col_span || 12}`,
+                `lg:col-span-${question.col_span_lg || question.col_span_md || question.col_span || 12}`
+              ]">
                 <!-- Input text -->
                 <div v-if="question.question_type === 'input_text' && question.question_other != 2" class="mb-4">
                   <label v-if="question.field_name_display" class="block text-sm font-medium text-gray-700 mb-2">
-                    {{ question.field_name_display }}:
+                    {{ JSON.parse(question.field_name_display).th }}:
                   </label>
                   <InputText v-model="formValuesMap[formKey][question.field_name]" :readonly="question.readonly === 1"
                     :required="question.required === 1" :class="[
@@ -121,7 +126,7 @@ td.radio-table-cell {
                 <!-- Input number -->
                 <div v-else-if="question.question_type === 'input_text_number'" class="mb-4">
                   <label v-if="question.field_name_display" class="block text-sm font-medium text-gray-700 mb-2">
-                    {{ question.field_name_display }}:
+                    {{ JSON.parse(question.field_name_display).th }}:
                   </label>
                   <InputNumber v-model="formValuesMap[formKey][question.field_name]" :readonly="question.readonly === 1"
                     :required="question.required === 1" :class="[
@@ -136,7 +141,7 @@ td.radio-table-cell {
                 <!-- Date -->
                 <div v-else-if="question.question_type === 'date'" class="mb-4">
                   <label v-if="question.field_name_display" class="block text-sm font-medium text-gray-700 mb-2">
-                    {{ question.field_name_display }}:
+                    {{ JSON.parse(question.field_name_display).th }}:
                   </label>
                   <!-- <Calendar
                     v-model="formValuesMap[formKey][question.field_name]"
@@ -147,7 +152,7 @@ td.radio-table-cell {
                       question.required === 1 && !formValuesMap[formKey][question.field_name] ? 'p-invalid' : ''
                     ]"
                   /> -->
-                  <CustomCalendar v-model="formValuesMap[formKey][question.field_name]"
+                  <CustomDatePicker v-model="formValuesMap[formKey][question.field_name]" inputClass="w-full"
                     :required="question.required === 1" dateFormat="yy-mm-dd" :class="[
                       'w-full',
                       question.required === 1 && !formValuesMap[formKey][question.field_name] ? 'p-invalid' : ''
@@ -160,7 +165,7 @@ td.radio-table-cell {
                 <!-- Time -->
                 <div v-else-if="question.question_type === 'time'" class="mb-4">
                   <label v-if="question.field_name_display" class="block text-sm font-medium text-gray-700 mb-2">
-                    {{ question.field_name_display }}:
+                    {{ JSON.parse(question.field_name_display).th }}:
                   </label>
                   <Calendar v-model="formValuesMap[formKey][question.field_name]" :required="question.required === 1"
                     timeOnly :class="[
@@ -176,7 +181,7 @@ td.radio-table-cell {
                 <!-- Textarea -->
                 <div v-else-if="question.question_type === 'textarea'" class="mb-4">
                   <label v-if="question.field_name_display" class="block text-sm font-medium text-gray-700 mb-2">
-                    {{ question.field_name_display }}:
+                    {{ JSON.parse(question.field_name_display).th }}:
                   </label>
                   <Textarea v-model="formValuesMap[formKey][question.field_name]" :readonly="question.readonly === 1"
                     :required="question.required === 1" :autoResize="true" rows="3" :class="[
@@ -195,17 +200,17 @@ td.radio-table-cell {
                   'p-2 mb-2',
                   question.text_align === 'center' ? 'text-center' : '',
                   question.text_align === 'right' ? 'text-right' : 'text-left'
-                ]">{{ question }}
-                  <!-- <div class="text-lg font-medium text-gray-800" :style="{
+                ]">
+                  <div class="text-lg font-medium text-gray-800" :style="{
                     'text-indent': question['text_indent'] || '0',
                     'font-weight': question['font_weight'] || 'normal',
                     'text-decoration': question['text_decoration'] || 'none'
                   }">
-                    {{ question.field_name_display }}
-                  </div> -->
-                  <div v-if="question.field_name_display_end" class="text-lg font-medium text-gray-800">
-                    {{ question.field_name_display_end }}
+                    {{ JSON.parse(question.field_name_display).th }}
                   </div>
+                  <!-- <div v-if="question.field_name_display_end" class="text-lg font-medium text-gray-800">
+                    {{ question.field_name_display_end }}
+                  </div> -->
                 </div>
 
 
@@ -222,7 +227,7 @@ td.radio-table-cell {
                         :inputId="`${formKey}_${question.field_name}`" :trueValue="question.checked_value"
                         :falseValue="question.unchecked_value" @change="handleCheckboxChange(formKey, question)" />
                       <label :for="`${formKey}_${question.field_name}`" class="text-sm text-gray-700 cursor-pointer">
-                        {{ question.field_name_display }}
+                        {{ JSON.parse(question.field_name_display).th }}
                       </label>
                     </div>
 
@@ -241,33 +246,7 @@ td.radio-table-cell {
 
 
 
-                <!-- Checkbox และ Checkbox-other -->
-                <template
-                  v-else-if="question.question_type === 'checkbox' || question.question_type === 'checkbox-other'"
-                  class="pa-0 m-0 ">
-                  <div class="d-flex flex-wrap" style="width: 100%; height: 100%;">
-                    <!-- Checkbox -->
 
-                    <v-checkbox v-model="formValuesMap[formKey][question.field_name]"
-                      :label="question.field_name_display" :true-value="question.checked_value"
-                      :false-value="question.unchecked_value" density="compact" hide-details class="my-0 py-0"
-                      @change="handleCheckboxChange(formKey, question)" />
-
-
-                    <!-- Child Text Input (เรียงต่อกันในแถวเดียว) -->
-                    <div v-for="childQuestion in findChildQuestions(formData._question, question)"
-                      :key="childQuestion.id">
-                      <v-col :cols="childQuestion.col_span || 'auto'" class="pl-2"
-                        :md="childQuestion.col_span_md || 'auto'" :lg="childQuestion.col_span_lg || 'auto'">
-                        <v-text-field v-model="formValuesMap[formKey][childQuestion.field_name]"
-                          :placeholder="childQuestion.field_name_display || 'ระบุ'" outlined density="compact"
-                          hide-details style="width: 200px;"
-                          :disabled="formValuesMap[formKey][question.field_name] !== question.checked_value"
-                          :rules="childQuestion.required === 1 ? [requiredRule(childQuestion.field_name_display)] : []" />
-                      </v-col>
-                    </div>
-                  </div>
-                </template>
 
 
 
@@ -292,29 +271,38 @@ td.radio-table-cell {
 
 
                 <!-- Radio Options -->
+                <!-- <div v-else-if="question.question_type === 'radio' || question.question_type === 'radio-other'"
+                class="mb-4">
+               
+                </div> -->
                 <div v-else-if="question.question_type === 'radio' || question.question_type === 'radio-other'"
                   class="mb-4">
+
                   <label v-if="question.field_name_display" class="block text-sm font-medium text-gray-700 mb-3">
-                    {{ question.field_name_display }}
+                    {{ JSON.parse(question.field_name_display).th }}
                   </label>
 
-                  <!-- Horizontal Layout -->
+
                   <div v-if="question.direction === 'horizental'" class="flex flex-wrap items-center gap-4">
                     <template v-for="option in normalizeSelectValue(question.select_value)" :key="option.value">
                       <div class="flex items-center space-x-2 flex-shrink-0">
                         <RadioButton v-model="formValuesMap[formKey][question.field_name]"
                           :inputId="`${formKey}_${question.field_name}_${option.value}`" :value="option.value" />
                         <label :for="`${formKey}_${question.field_name}_${option.value}`"
-                          class="text-sm text-gray-700 cursor-pointer">
-                          {{ option.text }}
+                          class="text-sm text-gray-700 cursor-pointer" v-if="typeof (option.text) == 'object'">
+                          {{ option.text.th }}
+                        </label>
+                        <label :for="`${formKey}_${question.field_name}_${option.value}`"
+                          class="text-sm text-gray-700 cursor-pointer" v-else>
+                          {{ JSON.parse(option.text).th }}
                         </label>
 
-                        <!-- Other input field -->
+
                         <div v-if="option.is_other" class="ml-2">
                           <div v-for="childQuestion in findChildQuestionsRadio(formData._question, question)"
                             :key="childQuestion.id">
                             <InputText v-model="formValuesMap[formKey][childQuestion.field_name]"
-                              :placeholder="childQuestion.field_name_display || 'ระบุ'"
+                              :placeholder="parse(childQuestion.field_name_display).th || 'ระบุ'"
                               :disabled="formValuesMap[formKey][question.field_name] !== option.value" class="w-44"
                               size="small" />
                           </div>
@@ -323,24 +311,28 @@ td.radio-table-cell {
                     </template>
                   </div>
 
-                  <!-- Vertical Layout -->
+
                   <div v-else class="space-y-3">
                     <template v-for="option in normalizeSelectValue(question.select_value)" :key="option.value">
                       <div class="flex items-center space-x-2">
                         <RadioButton v-model="formValuesMap[formKey][question.field_name]"
                           :inputId="`${formKey}_${question.field_name}_${option.value}`" :value="option.value" />
                         <label :for="`${formKey}_${question.field_name}_${option.value}`"
-                          class="text-sm text-gray-700 cursor-pointer flex-grow">
-                          {{ option.text }}
+                          class="text-sm text-gray-700 cursor-pointer" v-if="typeof (option.text) == 'object'">
+                          {{ option.text.th }}
+                        </label>
+                        <label :for="`${formKey}_${question.field_name}_${option.value}`"
+                          class="text-sm text-gray-700 cursor-pointer" v-else>
+                          {{ JSON.parse(option.text).th }}
                         </label>
 
-                        <!-- Other input fields -->
+
                         <template v-if="option.is_other">
                           <div class="flex items-center space-x-2 ml-2">
                             <template v-for="childQuestion in findChildQuestionsRadio(formData._question, question)"
                               :key="childQuestion.id">
                               <InputText v-model="formValuesMap[formKey][childQuestion.field_name]"
-                                :placeholder="childQuestion.field_name_display || 'ระบุ'"
+                                :placeholder="parse(childQuestion.field_name_display).th || 'ระบุ'"
                                 :disabled="formValuesMap[formKey][question.field_name] !== option.value" class="w-40"
                                 size="small" />
                             </template>
@@ -352,7 +344,7 @@ td.radio-table-cell {
                 </div>
 
                 <!-- เพิ่ม input, textarea, select ฯลฯ ตามปกติ -->
-              </v-col>
+              </div>
             </div>
 
 
@@ -586,7 +578,7 @@ const initializeFormValues = (surveyMap, defaultValues = {}) => {
         // Find the parent: must be question_other == 1 and question_other_multiple_choice_id === q.id
         const parent = questionList.find(
           (qq) =>
-            qq.question_other === 1 &&
+            qq.question_other == 1 &&
             qq.question_other_multiple_choice_id === q.id
         );
         if (parent) {
@@ -694,7 +686,7 @@ const findChildQuestionsRadio = (questions, parentQuestion) => {
 const requiredRule = (label) => (v) => !!v || `กรุณากรอก ${label}`
 // ปรับปรุงฟังก์ชัน handleCheckboxChange
 const handleCheckboxChange = (formKey, question) => {
-
+  console.log('check')
   // หากเป็น checkbox-other และถูก uncheck
   if (question.question_type === 'checkbox-other' &&
     formValuesMap.value[formKey][question.field_name] === question.unchecked_value) {
@@ -754,7 +746,7 @@ const setupParentChildWatchers = () => {
                 if (!isChecked) {
                   // หา child questions ที่เกี่ยวข้อง
                   const childQuestions = formData._question.filter(q =>
-                    q.question_other === 2 && q.parent_id === question.id
+                    q.question_other == 2 && q.parent_id == question.id
                   )
 
                   // ล้างค่า child questions

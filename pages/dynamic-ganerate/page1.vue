@@ -13,19 +13,44 @@ const mapDefaultValueData = ref({})
 const loadData = async () => {
   try {
     const res = await dataApi.getSurveyById()
-    // แปลง array เป็น object
-    // กำหนด key เป็น group_name หรือ id ก็ได้
     const arr = res.data.data.question_groups || []
-    surveyDataMap.value = arr.reduce((acc, cur) => {
-      // เลือก key ที่ต้องการ
-      acc[cur.group_name] = cur
+
+    // flatten questions - เอา choices ของ group มาไว้ระดับเดียวกัน
+    const flattenQuestions = (questions = []) => {
+      const out = []
+      for (const q of questions) {
+        if (q.question_type === "group" && Array.isArray(q.choices) && q.choices.length > 0) {
+          // ดึง info group ออกมา (ไม่เอา choices)
+          const { choices, ...groupInfo } = q
+          out.push(groupInfo)
+          // แตก choices ทุกอันตามหลัง
+          out.push(...q.choices)
+        } else {
+          out.push(q)
+        }
+      }
+      return out
+    }
+
+    // เปลี่ยน array group เป็น object โดยใช้ group_name เป็น key
+    // และเปลี่ยน questions เป็น _question (flatten แล้ว)
+    const flatObject = arr.reduce((acc, cur) => {
+      acc[cur.group_name] = {
+        ...cur,
+        _question: flattenQuestions(cur.questions)
+      }
+      delete acc[cur.group_name].questions // ลบ field questions เดิมออก (ถ้าไม่ต้องการ)
       return acc
     }, {})
-    console.log('surveyDataMap',surveyDataMap.value)
+
+    // ผลลัพธ์ flatObject ตามที่ต้องการ
+    console.log('flatObject', flatObject)
+    surveyDataMap.value = flatObject
   } catch (error) {
     console.error(error)
   }
 }
+
 onMounted(()=>{
     loadData();
 })
