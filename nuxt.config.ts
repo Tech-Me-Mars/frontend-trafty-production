@@ -6,6 +6,7 @@ export default defineNuxtConfig({
   // },
  runtimeConfig: {
    public: {
+      api_endpoint:"http://localhost:8091",
       aqaz2wsx3ed: process.env.KEY, // คีย์ลับสำหรับเข้ารหัส
     }
     

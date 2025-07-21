@@ -44,6 +44,7 @@
     "primevue": "^4.2.2",
     "swiper": "^11.1.15",
     "tailwindcss-primeui": "^0.3.4",
+    "uuid": "^11.1.0",
     "vant": "^4.9.10",
     "vee-validate": "^4.12.6",
     "vue": "latest",
