@@ -90,13 +90,13 @@ td.radio-table-cell {
 }
 </style>
 <template>
-  <pre>{{ surveyDataMap }}</pre>
+  <!-- <pre>{{ surveyDataMap }}</pre> -->
   <form @submit.prevent="submitAllForms" class="space-y-4">
     <template v-for="(formData, formKey) in surveyDataMap" :key="formKey">
       <!-- {{ formData }} -->
       <div class="bg-white rounded-lg shadow p-4 mb-4">
         <div class="text-base font-semibold mb-2">{{ formData.group_name_display }}</div>
-        <div class="grid grid-cols-1 gap-4">
+        <div class="grid grid-cols-1 ">
           <template v-for="question in (formData._question)" :key="question.id">
 
             <!-- Input field ปกติ -->
@@ -214,17 +214,14 @@ td.radio-table-cell {
                 </div>
 
 
-
-
-
-
                 <!-- Checkbox Options -->
                 <div v-else-if="question.question_type === 'checkbox' || question.question_type === 'checkbox-other'"
-                  class="mb-4">
+                  class="">
                   <div class="flex flex-wrap items-center w-full">
                     <div class="flex items-center space-x-2">
+                      <!-- {{ formValuesMap[formKey][question.field_name] }} -->
                       <Checkbox v-model="formValuesMap[formKey][question.field_name]"
-                        :inputId="`${formKey}_${question.field_name}`" :trueValue="question.checked_value"
+                        :inputId="`${formKey}_${question.field_name}`" binary :trueValue="question.checked_value"
                         :falseValue="question.unchecked_value" @change="handleCheckboxChange(formKey, question)" />
                       <label :for="`${formKey}_${question.field_name}`" class="text-sm text-gray-700 cursor-pointer">
                         {{ JSON.parse(question.field_name_display).th }}
@@ -236,7 +233,7 @@ td.radio-table-cell {
                       <div v-for="childQuestion in findChildQuestions(formData._question, question)"
                         :key="childQuestion.id">
                         <InputText v-model="formValuesMap[formKey][childQuestion.field_name]"
-                          :placeholder="childQuestion.field_name_display || 'ระบุ'"
+                          :placeholder="JSON.parse(childQuestion.field_name_display).th || 'ระบุ'"
                           :disabled="formValuesMap[formKey][question.field_name] !== question.checked_value"
                           class="w-52" size="small" />
                       </div>
@@ -245,38 +242,9 @@ td.radio-table-cell {
                 </div>
 
 
-
-
-
-
-
-
-
-                <!-- Select -->
-                <div v-else-if="question.question_type === 'select'" class="mb-4">
-                  <label v-if="question.field_name_display" class="block text-sm font-medium text-gray-700 mb-2">
-                    {{ question.field_name_display }}:
-                  </label>
-                  <Dropdown v-model="formValuesMap[formKey][question.field_name]"
-                    :options="normalizeSelectValue(question.select_value)" optionLabel="text" optionValue="value"
-                    :class="[
-                      'w-full',
-                      question.required === 1 && !formValuesMap[formKey][question.field_name] ? 'p-invalid' : ''
-                    ]" />
-                  <small v-if="question.field_name_display_end" class="text-gray-500 mt-1 block">
-                    {{ question.field_name_display_end }}
-                  </small>
-                </div>
-
-
-
                 <!-- Radio Options -->
-                <!-- <div v-else-if="question.question_type === 'radio' || question.question_type === 'radio-other'"
-                class="mb-4">
-               
-                </div> -->
                 <div v-else-if="question.question_type === 'radio' || question.question_type === 'radio-other'"
-                  class="mb-4">
+                  class="">
 
                   <label v-if="question.field_name_display" class="block text-sm font-medium text-gray-700 mb-3">
                     {{ JSON.parse(question.field_name_display).th }}
@@ -342,6 +310,34 @@ td.radio-table-cell {
                     </template>
                   </div>
                 </div>
+
+
+
+
+
+
+
+
+
+                <!-- Select -->
+                <div v-else-if="question.question_type === 'select'" class="mb-4">
+                  <label v-if="question.field_name_display" class="block text-sm font-medium text-gray-700 mb-2">
+                    {{ question.field_name_display }}:
+                  </label>
+                  <Dropdown v-model="formValuesMap[formKey][question.field_name]"
+                    :options="normalizeSelectValue(question.select_value)" optionLabel="text" optionValue="value"
+                    :class="[
+                      'w-full',
+                      question.required === 1 && !formValuesMap[formKey][question.field_name] ? 'p-invalid' : ''
+                    ]" />
+                  <small v-if="question.field_name_display_end" class="text-gray-500 mt-1 block">
+                    {{ question.field_name_display_end }}
+                  </small>
+                </div>
+
+
+
+
 
                 <!-- เพิ่ม input, textarea, select ฯลฯ ตามปกติ -->
               </div>
