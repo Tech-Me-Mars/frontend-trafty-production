@@ -1,4 +1,10 @@
 <template>
+                      <LayoutsBaseHeader :title="('แบบตรวจสอบมาตรฐานด้านความปลอดภัยของสถานที่ท่องเที่ยว')" >
+                        <template #right>
+
+
+            </template>
+        </LayoutsBaseHeader>
         <template v-if="surveyDataMap">
           <Dynamic :survey-data-map="surveyDataMap" @submit="handleFormSubmit" :default-values="mapDefaultValueData" 
           :model-change="model_change" />

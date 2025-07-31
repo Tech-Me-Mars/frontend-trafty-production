@@ -1,42 +1,42 @@
-<style scoped>
-.van-nav-bar {
-    --van-nav-bar-background: #281c74;
-    --van-nav-bar-text-color: white;
-    --van-nav-bar-icon-color: white;
-    --van-nav-bar-title-text-color: white;
-    --van-nav-bar-height: 70px
-}
-</style>
+<style scoped></style>
 <template>
-    <div class="bg-white min-h-screen">
+    <div class="bg-zinc-100 min-h-screen w-full">
 
-                    <LayoutsBaseHeader title="มาตรฐานความปลอดภัย" :showBack="true" :back-to="`/client/information/${route.params.id}`">
+        <LayoutsBaseHeader title="มาตรฐานความปลอดภัย" :showBack="true"
+            :back-to="`/client/information/${route.params.id}`">
         </LayoutsBaseHeader>
 
-        <div class="">
-            <div class="mx-auto  ">
-                <div class="p-4 border-b flex justify-between">
-                    <h1 class="text-lg font-bold">{{ t('มาตรฐานความปลอดภัย') }}</h1>
+        <div class="p-4 ">
+            <div class="mx-auto   bg-white rounded-lg shadow-md px-4 py-2">
+                <div class="border-b flex justify-between ">
+                    <div class="flex justify-between flex-wrap w-full">
+                        <h2 class="font-bold">สถานะการแสดง</h2>
+                        <ConfirmSwitch v-model="isOpen" message-on="คุณต้องการเปิดรีวิวนี้ให้ผู้อื่นเห็นหรือไม่?"
+                            message-off="คุณต้องการปิดรีวิวนี้ใช่หรือไม่?" />
+                    </div>
+                    <!-- <h1 class="text-lg font-bold">{{ t('มาตรฐานความปลอดภัย') }}</h1> -->
 
                 </div>
 
                 <div class="p-4">
-                    <div v-for="(item,index) in resPolicy" :key="index">
+                    <div v-for="(item, index) in resPolicy" :key="index">
                         <h2 class="text-base font-semibold mb-2">
                             {{ item?.topic_name }}
                         </h2>
-                        <ul class="space-y-3" >
-                            <li class="flex items-start space-x-3" v-for="(item_sub,index_sub) in item?.question" :key="index_sub">
-                                <i v-if="item_sub?.choice_text == 'มี'" class="fa-solid fa-circle-check text-blue-700 mt-1"></i>
+                        <ul class="space-y-3">
+                            <li class="flex items-start space-x-3" v-for="(item_sub, index_sub) in item?.question"
+                                :key="index_sub">
+                                <i v-if="item_sub?.choice_text == 'มี'"
+                                    class="fa-solid fa-circle-check text-blue-700 mt-1"></i>
                                 <i v-else class="fa-solid fa-circle-xmark text-red-600 mt-1"></i>
                                 <span>{{ item_sub?.audit_questions_text }}</span>
                             </li>
-                            
+
                         </ul>
                         <hr class="border-b mx-4 my-5" />
                     </div>
-                    
-                     <!-- <h2 class="text-base font-semibold mb-2 ">
+
+                    <!-- <h2 class="text-base font-semibold mb-2 ">
                         2. ด้านความปลอดภัยสารสนสุข
                     </h2>
                     <ul class="space-y-3">
@@ -157,6 +157,7 @@ const loadChoiceAudit = async () => {
 
     }
 }
+const isOpen = ref(true);
 
 onMounted(() => {
     loadChoiceAudit();

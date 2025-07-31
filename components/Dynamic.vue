@@ -246,9 +246,9 @@ td.radio-table-cell {
                 <div v-else-if="question.question_type === 'radio' || question.question_type === 'radio-other'"
                   class="">
 
-                  <label v-if="question.field_name_display" class="block text-sm font-medium text-gray-700 mb-3">
+                  <!-- <label v-if="question.field_name_display" class="block text-sm font-medium text-gray-700 mb-3">
                     {{ JSON.parse(question.field_name_display).th }}
-                  </label>
+                  </label> -->
 
 
                   <div v-if="question.direction === 'horizental'" class="flex flex-wrap items-center gap-4">

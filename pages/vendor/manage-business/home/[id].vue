@@ -37,7 +37,7 @@
 
             </template>
         </LayoutsBaseHeader> -->
-                    <LayoutsBaseHeader :title="t('ธุรกิจในแหล่งท่องเที่ยว')" >
+                    <LayoutsBaseHeader :title="t('ธุรกิจในแหล่งท่องเที่ยว')" showMenu >
                         <template #right>
                 <div class="flex items-center gap-2">
                     <div class="border p-0.5 rounded-md w-7 flex justify-center items-center">
@@ -69,11 +69,18 @@
                     <h2 class="text-lg font-bold">{{ resBusinessAll?.business_name?.shop_name }}</h2>
                     <p class="text-sm text-gray-500">{{ resBusinessAll?.business_name?.business_type_name }}</p>
 
-                    <span v-if="resBusinessAll?.business_name?.status_survey"
+                    <!-- <span v-if="resBusinessAll?.business_name?.status_survey"
                         class="flex items-center justify-center px-2 py-1 text-xs font-medium text-white bg-orange-600 rounded">
                         <i class="fa-solid fa-circle-exclamation mr-1"></i>
                         {{ resBusinessAll?.business_name?.status_survey }}
+                    </span> -->
+                    <div>
+                        <span 
+                        class=" px-2 py-1 text-xs font-medium text-white bg-lime-700 rounded">
+                        <i class="fa-solid fa-clipboard-check mr-1"></i>
+                        ประเมินผ่านแล้ว
                     </span>
+                    </div>
 
                 </div>
 
@@ -113,7 +120,7 @@
 
             </div>
 
-            <div class="card border-t grid grid-cols-3 gap-4 mb-3">
+            <div class="card border-t grid grid-cols-2 gap-4 mb-3">
                 <div class="bg-white text-center p-4 border-r-2">
                     <div>
                         <div class="text-xl font-bold">{{ resBusinessAll?.count_list }}</div>
@@ -126,12 +133,12 @@
                         <div class="text-gray-600 text-sm">{{ t('ใบเตือน') }}</div>
                     </div>
                 </div>
-                <div class="bg-white text-center p-4 ">
+                <!-- <div class="bg-white text-center p-4 ">
                     <div>
                         <div class="text-xl font-bold">{{ resBusinessAll?.count_comment }}</div>
                         <div class="text-gray-600 text-sm">{{ t('คอมเมนต์') }}</div>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <div class="flex justify-between items-center px-4">

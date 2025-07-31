@@ -32,7 +32,7 @@
                         <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=80&h=80&fit=crop&crop=center"
                             alt="avatar" class="w-10 h-10 rounded-md object-cover" />
                         <div class="flex flex-col leading-tight text-white">
-                            <span class="text-sm font-semibold">ตลาดน้ำ 4 ภาค</span>
+                            <span class="text-sm font-semibold">หาดแบงแสน</span>
                             <span class="text-xs opacity-80">อ.เมืองชลบุรี จ.ชลบุรี</span>
                         </div>
                     </div>
@@ -93,7 +93,7 @@ import InputText from 'primevue/inputtext'
 
 // Chat info
 const chatInfo = ref({
-    name: 'ตลาดน้ำ 4 ภาค',
+    name: 'หาดแบงแสน',
     subtitle: 'ออนไลน์ล่าสุด ๓ ชั่วโมง',
     avatar: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=150&h=150&fit=crop&crop=center',
     isGroup: true
