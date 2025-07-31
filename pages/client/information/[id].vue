@@ -9,6 +9,12 @@
             </template>
         </van-nav-bar> -->
         <LayoutsBaseHeader :title="t('รายละเอียด')" :showBack="true" back-to="/">
+            <template #right>
+                <div class="flex gap-2">
+                    <i @click="showShare = true" class="fa-solid fa-arrow-up-from-bracket"
+                        style="color: white;font-size: 22px;"></i>
+                </div>
+            </template>
         </LayoutsBaseHeader>
 
 
