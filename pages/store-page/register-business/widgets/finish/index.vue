@@ -44,7 +44,7 @@ const route = useRoute()
 
 const finish = async () => {
     await formStore.$reset();
-    navigateTo(`/vendor/manage-business/home/${route.query.bussiness_id}`)
+    // navigateTo(`/vendor/manage-business/home/${route.query.bussiness_id}`)
 }
 </script>
 

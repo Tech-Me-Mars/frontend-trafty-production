@@ -153,9 +153,10 @@ import { Autoplay, Navigation, Pagination } from 'swiper/modules'
 const { t } = useI18n();
 const images = [
   { src: '/image/bg/food-4k.jpg', alt: 'อาหารไทย' },
-  { src: '/image/bg/food-2.jpg', alt: 'อาหารทะเล' },
-  { src: '/image/bg/food-3.jpg', alt: 'ของหวาน' },
-  { src: '/image/bg/food-4.jpg', alt: 'เครื่องดื่ม' }
+  { src: '/image/bg/food-4k.jpg', alt: 'อาหารไทย' },
+  { src: '/image/bg/food-4k.jpg', alt: 'อาหารไทย' },
+  { src: '/image/bg/food-4k.jpg', alt: 'อาหารไทย' },
+
 ]
 const categories = [
   {
