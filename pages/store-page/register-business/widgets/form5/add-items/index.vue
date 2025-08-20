@@ -99,57 +99,92 @@ const getFieldError = (fieldName, langCode = null) => {
 }
 </style>
 <template>
-    <div class="bg-zinc-100 min-h-screen">
-        <LayoutsBaseHeader :title="t('เพิ่มรายการ')">
-            <template #left>
-                <ButtonIconBack @click="formStore.goToPage(6)" />
-            </template>
-        </LayoutsBaseHeader>
+  <div class="bg-zinc-100 min-h-screen">
+    <LayoutsBaseHeader :title="t('เพิ่มรายการ')">
+      <template #left>
+        <ButtonIconBack @click="formStore.goToPage(6)" />
+      </template>
+    </LayoutsBaseHeader>
 
-        <div class="p-4 ">
-            <Form @submit="handleNext">
-                <van-tabs v-model:active="activeLangTab" type="line" sticky animated color="#202c54"
-                    @change="moveMapToTab">
-                    <van-tab v-for="(lang, idx) in langs" :key="lang.code" :title="lang.label" :name="idx">
-                        <div class="card pt-5 mb-10">
-                            <h2 class="font-bold text-lg mb-3 ">{{ t('ธุรกิจในแหล่งท่องเที่ยว') }}</h2>
+    <!-- พื้นที่เลื่อนของเนื้อหา (กันทับ toolbar ด้วย padding-bottom) -->
+    <div
+      class="max-w-[430px] mx-auto h-[calc(100vh-56px)] overflow-y-auto"
+      :style="{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 88px)' }"
+    >
+      <Form id="addItemForm" @submit="handleNext">
+        <van-tabs
+          v-model:active="activeLangTab"
+          type="line"
+          sticky
+          line-width="100"
+          animated
+          color="#202c54"
+        >
+          <van-tab
+            v-for="(lang, idx) in langs"
+            :key="lang.code"
+            :title="lang.label"
+            :name="idx"
+          >
+            <div class="p-3">
+              <div class="bg-white rounded-sm border border-zinc-200 p-4 shadow-sm">
+                <h2 class="font-bold text-lg mb-3">
+                  {{ t('ธุรกิจในแหล่งท่องเที่ยว') }}
+                </h2>
 
-                            <!-- List of Businesses -->
-                            <div class="space-y-4">
-                                <div>
-                                    <label class="label-input">{{ t('ชื่อรายการ') }}</label>
-                                    <InputText v-model="business_list_name_i18n[lang.code]" :placeholder="t('ชื่อรายการ')"
-                                        class="w-full custom-border" :invalid="getFieldError('business_list_name_i18n')" />
-                                    <p v-if="getFieldError('business_list_name_i18n', lang.code)" class="error-text">
-                                        {{ getFieldError('business_list_name_i18n', lang.code) }}
-                                    </p>
+                <div class="space-y-4">
+                  <div>
+                    <label class="label-input">{{ t('ชื่อรายการ') }}</label>
+                    <InputText
+                      v-model="business_list_name_i18n[lang.code]"
+                      :placeholder="t('ชื่อรายการ')"
+                      class="w-full custom-border"
+                      :invalid="getFieldError('business_list_name_i18n')"
+                    />
+                    <p v-if="getFieldError('business_list_name_i18n', lang.code)" class="error-text">
+                      {{ getFieldError('business_list_name_i18n', lang.code) }}
+                    </p>
+                  </div>
 
-                                </div>
-                                <div>
-                                    <label class="label-input">{{ t('ราคา') }}</label>
-                                    <InputText v-model="business_list_price" :placeholder="t('ราคา')"
-                                       class="w-full custom-border" inputClass="custom-border" :invalid="errors?.business_list_price ? true : false"  />
-                                    <p class="error-text" v-if="errors?.business_list_price">{{
-                                        errors?.business_list_price }}
-                                    </p>
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </van-tab>
-                </van-tabs>
-           
-                <Button :loading="isloadingAxi" :label="t('บันทึก')" severity="primary" type="submit" rounded
-                    class="w-full" :pt="{
-                        root: {
-                            class: '!border-primary-main'
-                        },
-                    }" />
-
-            </Form>
-  
-        </div>
-
+                  <div>
+                    <label class="label-input">{{ t('ราคา') }}</label>
+                    <InputText
+                      v-model="business_list_price"
+                      :placeholder="t('ราคา')"
+                      class="w-full custom-border"
+                      inputClass="custom-border"
+                      :invalid="!!errors?.business_list_price"
+                    />
+                    <p class="error-text" v-if="errors?.business_list_price">
+                      {{ errors?.business_list_price }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </van-tab>
+        </van-tabs>
+      </Form>
     </div>
+
+    <!-- 🔻 แถบล่าง fixed ชิดขอบล่างจอเสมอ -->
+    <div
+      class="fixed bottom-0 left-0 right-0 z-30 "
+      :style="{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 8px)' }"
+    >
+      <div class="max-w-[430px] mx-auto px-3 py-3">
+        <!-- ปุ่ม submit ผูกกับฟอร์มด้านบนด้วย form="addItemForm" -->
+        <Button
+          type="submit"
+          form="addItemForm"
+          :loading="isloadingAxi"
+          :label="t('บันทึก')"
+          severity="primary"
+          rounded
+          class="w-full"
+          :pt="{ root: { class: '!border-primary-main' } }"
+        />
+      </div>
+    </div>
+  </div>
 </template>

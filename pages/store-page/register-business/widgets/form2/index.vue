@@ -46,21 +46,20 @@ const goNext = () => {
 </script>
 
 <template>
-  <div class="bg-zinc-100 min-h-screen">
+  <div class="bg-[#EEF0F3] min-h-screen">
     <LayoutsBaseHeader :title="t('หน่วยงานแหล่งท่องเที่ยว')">
       <template #left>
         <ButtonIconBack @click="formStore.prevPage()" />
       </template>
     </LayoutsBaseHeader>
 
-    <section class="max-w-md mx-auto px-4 pt-2 pb-10">
+    <section class="max-w-[430px] mx-auto">
       <!-- Tabs ภาษา -->
-      <van-tabs v-model:active="activeLangTab" type="line" animated color="#202c54">
+      <van-tabs v-model:active="activeLangTab" type="line" color="#202c54" :line-width="100" animated>
         <van-tab v-for="lang in langs" :key="lang.code" :name="lang.code" :title="lang.label">
           <!-- หัวเรื่อง + เส้นใต้ -->
           <h2
-            class="text-center text-[20px] font-extrabold text-[#202c54] mt-4 relative after:block after:w-28 after:h-[3px] after:bg-[#202c54] after:mx-auto after:mt-2"
-          >
+            class="text-center text-[20px] font-extrabold text-[#202c54] mt-4 ">
             {{ lang.code === 'th'
               ? 'เลือกหน่วยงานของคุณ'
               : lang.code === 'en'
@@ -71,23 +70,13 @@ const goNext = () => {
 
           <!-- รายการการ์ดแบบวิทยุ -->
           <div class="flex flex-col gap-3 p-4 mt-2 mb-8">
-            <label
-              v-for="item in businessModels"
-              :key="item.id"
-              class="bg-white border rounded-md px-4 py-3 flex items-center gap-3 cursor-pointer transition
-                     shadow-[0_1px_0_rgba(0,0,0,0.02)]"
-              :class="selectedId === item.id
-                ? 'border-[#243a8b] bg-[#eef3ff]'
-                : 'border-gray-300 hover:border-[#202c54]/50'"
-            >
+            <label  v-for="item in businessModels" :key="item.id" class="bg-white border rounded-md px-4 py-3 flex items-center gap-3 cursor-pointer transition
+                     shadow-[0_1px_0_rgba(0,0,0,0.02)]" :class="selectedId === item.id
+                      ? 'border-[#243a8b] bg-[#eef3ff]'
+                      : 'border-gray-300 hover:border-[#202c54]/50'" :for="item.id" @click="selectedId = item.id">
               <!-- radio -->
-              <input
-                type="radio"
-                class="w-4 h-4 accent-[#243a8b]"
-                :value="item.id"
-                v-model="selectedId"
-                name="business-model"
-              />
+              <input type="radio" class="w-4 h-4 accent-[#243a8b]" :value="item.id" v-model="selectedId"
+                name="business-model" :id="item.id" />
               <!-- ชื่อหน่วยงาน -->
               <span class="text-[15px] text-[#1f2937]">
                 {{ item.name[lang.code] }}
@@ -99,15 +88,9 @@ const goNext = () => {
 
       <!-- ปุ่มถัดไป -->
       <div class="max-w-sm w-full mx-auto">
-        <Button
-          rounded
-          :label="t('ถัดไป')"
-          class="w-full h-12"
-          :pt="{
-            root: 'bg-[#243a8b] hover:bg-[#1f2f86] text-white rounded-full active:scale-95 transition'
-          }"
-          @click="goNext"
-        />
+        <Button rounded :label="t('ถัดไป')" class="w-full h-12" :pt="{
+          root: 'bg-[#243a8b] hover:bg-[#1f2f86] text-white rounded-full active:scale-95 transition'
+        }" @click="goNext" />
       </div>
     </section>
   </div>
@@ -115,11 +98,11 @@ const goNext = () => {
 
 <style scoped>
 /* ปรับโทนแถบนำทาง (ถ้า LayoutsBaseHeader ใช้ Vant) */
-.van-nav-bar{
-  --van-nav-bar-background:#0d1a4f;
-  --van-nav-bar-text-color:#fff;
-  --van-nav-bar-icon-color:#fff;
-  --van-nav-bar-title-text-color:#fff;
-  --van-nav-bar-height:70px;
+.van-nav-bar {
+  --van-nav-bar-background: #0d1a4f;
+  --van-nav-bar-text-color: #fff;
+  --van-nav-bar-icon-color: #fff;
+  --van-nav-bar-title-text-color: #fff;
+  --van-nav-bar-height: 70px;
 }
 </style>

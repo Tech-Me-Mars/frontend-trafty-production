@@ -13,8 +13,8 @@ const confirm = useConfirm()
 // ภาษาในแท็บ
 const langs = [
   { code: 'th', label: 'ภาษาไทย', locale: 'th' },
-  { code: 'en', label: 'English',  locale: 'en' },
-  { code: 'cn', label: '中文',       locale: 'cn' },
+  { code: 'en', label: 'English', locale: 'en' },
+  { code: 'cn', label: '中文', locale: 'cn' },
 ]
 const activeLangTab = ref(0)
 
@@ -73,93 +73,76 @@ const formatPrice = (val) => {
   return isNaN(num) ? String(val) : num.toLocaleString('th-TH', { minimumFractionDigits: 0 })
 }
 </script>
-
 <template>
   <div class="bg-zinc-100 min-h-screen">
     <LayoutsBaseHeader :title="t('รายการธุรกิจในแหล่งท่องเที่ยว')">
-      <template #left><ButtonIconBack @click="formStore.prevPage()" /></template>
+      <template #left>
+        <ButtonIconBack @click="formStore.prevPage()" />
+      </template>
     </LayoutsBaseHeader>
 
-    <div class="max-w-2xl mx-auto p-4">
-      <van-tabs
-        v-model:active="activeLangTab"
-        type="line"
-        sticky
-        animated
-        color="#202c54"
-      >
+    <div class="max-w-[430px] mx-auto">
+      <van-tabs v-model:active="activeLangTab" type="line" sticky line-width="100" animated color="#202c54">
         <van-tab v-for="(lang, idx) in langs" :key="lang.code" :title="lang.label" :name="idx" class="pt-2">
-          <div class="bg-white rounded-xl border border-zinc-200 p-4 shadow-sm">
-            <!-- Header -->
-            <div class="flex items-center justify-between mb-3">
-              <div>
-                <h2 class="font-bold text-lg text-zinc-900">
-                  {{ t('ธุรกิจในแหล่งท่องเที่ยว') }}
-                </h2>
-                <p class="text-sm text-zinc-500">{{ t('เพิ่มรายการสินค้า') }}</p>
-              </div>
-              <Button
-                size="small"
-                icon="pi pi-plus"
-                :label="t('เพิ่มรายการ')"
-                severity="secondary"
-                @click="goAddItem"
-              />
-            </div>
-
-            <!-- Empty state -->
-            <div
-              v-if="!items.length"
-              class="border border-dashed rounded-xl p-6 text-center text-zinc-500"
-            >
-              <i class="pi pi-box mb-2 text-2xl block"></i>
-              <p class="mb-3">{{ t('ยังไม่มีรายการ') }}</p>
-              <Button size="small" icon="pi pi-plus" :label="t('เพิ่มรายการ')" @click="goAddItem" />
-            </div>
-
-            <!-- List -->
-            <div v-else class="space-y-3">
-              <div
-                v-for="(item, index) in items"
-                :key="index"
-                class="flex items-start justify-between rounded-lg border border-zinc-200 p-3 hover:border-zinc-300 transition"
-              >
-                <div class="pr-3">
-                  <p class="font-medium text-zinc-800">
-                    {{ showName(item, langs[activeLangTab].code) }}
-                  </p>
-                  <p class="text-sm text-zinc-500 mt-1">
-                    ฿ {{ formatPrice(item.business_list_price) }}
-                  </p>
+          <!-- ใส่ padding-bottom กันทับปุ่มล่าง -->
+          <div class="p-3" :style="{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 90px)' }">
+            <div class="bg-white rounded-sm border border-zinc-200 p-4 shadow-sm">
+              <!-- Header -->
+              <div class="flex items-center justify-between mb-3">
+                <div>
+                  <h2 class="font-bold text-lg text-zinc-900">
+                    {{ t('ธุรกิจในแหล่งท่องเที่ยว') }}
+                  </h2>
+                  <p class="text-sm text-zinc-500">{{ t('เพิ่มรายการธุรกิจในแหล่งท่องเที่ยว') }}</p>
                 </div>
-                <button
-                  type="button"
-                  class="text-rose-600 hover:text-rose-700"
-                  @click="removeItem(index)"
-                  aria-label="remove"
-                >
-                  <i class="fa-solid fa-circle-xmark text-xl"></i>
-                </button>
+               
               </div>
-            </div>
 
-            <!-- Footer action -->
-            <div class="pt-5">
-              <Button
-                :label="t('ยืนยัน')"
-                severity="primary"
-                rounded
-                class="w-full"
-                :pt="{ root: { class: '!border-primary-main' } }"
-                @click="goNext"
-              />
+              <!-- Empty -->
+              <div v-if="!items.length" class="border border-dashed rounded-sm p-6 text-center text-zinc-500">
+                <i class="pi pi-box mb-2 text-2xl block"></i>
+                <p class="mb-3">{{ t('ยังไม่มีรายการ') }}</p>
+                <Button size="small" icon="pi pi-plus" :label="t('เพิ่มรายการ')" @click="goAddItem" />
+              </div>
+
+              <!-- List -->
+              <div v-else class="space-y-3">
+                <div v-for="(item, index) in items" :key="index"
+                  class="flex items-start justify-between rounded-sm border border-zinc-200 p-3.5 hover:border-zinc-300 transition">
+                  <div class="pr-3">
+                    <p class="font-medium text-zinc-900 leading-tight">
+                      {{ showName(item, langs[activeLangTab].code) }}
+                    </p>
+                    <p class="text-sm text-zinc-700 mt-1">
+                      ฿ {{ formatPrice(item.business_list_price) }}
+                    </p>
+                  </div>
+
+                  <!-- 🔴 ปุ่มลบ “สี่เหลี่ยมแดง” -->
+                  <button type="button" class="inline-flex h-4 w-4 !items-center !justify-center rounded-[6px]
+         bg-red-700 !text-white shadow-sm hover:bg-red-700 active:scale-95" @click="removeItem(index)"
+                    aria-label="remove">
+                    <i class="fa-solid fa-xmark text-[12px] leading-none"></i>
+                  </button>
+                </div>
+                 <Button size="small" icon="pi pi-plus" :label="t('เพิ่มรายการ')" severity="secondary"
+                  @click="goAddItem" />
+              </div>
             </div>
           </div>
         </van-tab>
       </van-tabs>
     </div>
 
-    <!-- Confirm ลบ -->
+    <!-- ✅ ปุ่มบันทึกชิดขอบล่างจอเสมอ -->
+    <div class="fixed bottom-0 left-0 right-0 z-30"
+      :style="{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 8px)' }">
+      <div class="max-w-[430px] mx-auto px-3 py-2">
+        <Button :label="t('บันทึก')" severity="primary" class="w-full " rounded
+          :pt="{ root: { class: '!bg-[#202c54] hover:!bg-[#1a255c] !border-[#202c54]' } }" @click="goNext" />
+      </div>
+    </div>
+
     <ConfirmDialog />
   </div>
 </template>

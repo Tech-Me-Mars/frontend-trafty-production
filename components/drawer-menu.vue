@@ -11,7 +11,7 @@
             <span class="font-bold text-[#0f1b44]">Menu</span>
           </div>
           <button class="text-2xl text-[#0f1b44]" @click="drawervisible = false">
-            <i class="fa-solid fa-xmark"></i>
+            <!-- <i class="fa-solid fa-xmark"></i> -->
           </button>
         </div>
       </template>

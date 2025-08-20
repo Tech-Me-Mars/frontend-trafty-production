@@ -21,7 +21,7 @@ const handleClick = () => {
       <h1 class="text-center text-2xl font-extrabold text-[#202c54]">
         {{ t('ประเภทการให้บริการ') }}
       </h1>
-      <p class="text-center text-gray-500 mt-2">
+      <p class="text-center text-primary-main mt-2">
         {{ t('กรุณาเลือกประเภทการให้บริการของคุณ') }}
       </p>
 

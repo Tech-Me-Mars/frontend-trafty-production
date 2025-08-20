@@ -8,3 +8,25 @@ const { t } = useI18n();
 
 ไปเช็คหน้า inspector/warning-list/index/index.vue ว่ามี {{ item?.business_type_name }} จากapi จริงไหม
 ค้นหา keyword ร้านอาหาร
+
+ช่วยปรับให้มเหมือนuiตามรูปมาที่สุด ทั้ง padding margin ทั้งสี ทั้งความโค้ง (rounded) และตำแหน่งทุกอย่าง อย่าปราณีต
+
+<van-tabs
+  v-model:active="activeLangTab"
+  type="line"
+  color="#202c54"
+  :line-width="100"     
+  animated
+>
+
+
+                              <Button v-else :label="t('ตรวจสอบ')" :loading="isloadingAxi" severity="primary"
+                            variant="outlined" class="w-full" :pt="{
+                                label: {
+                                    class: 'text-primary-main'
+                                },
+                                root: {
+                                    class: '!border-primary-main'
+                                },
+
+                            }" @click="navigateTo(`/client/information/${item.business_id}`)" />
