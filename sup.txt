@@ -1,0 +1,17 @@
+                                    <div class="flex">
+                                        <label
+                                            class="w-12 h-12 border-2 border-dotted border-blue-900 rounded-md flex items-center justify-center cursor-pointer hover:border-gray-600"
+                                            @click="triggerFileInput">
+                                            <i
+                                                class="pi pi-plus text-2xl text-gray-600 hover:scale-110 transition-transform"></i>
+                                        </label>
+                                        <FileUpload ref="fileInput" id="upload-image-store" inputId="upload-image-store"
+                                            mode="basic" accept="image/*" @select="onFileSelect" customUpload
+                                            :auto="true" class="!hidden" multiple />
+                                    </div>
+
+                                    const fileInput = ref(null);
+const triggerFileInput = () => {
+    // console.log('triggerFileInput',fileInput.value[0])
+    fileInput.value[0].choose();
+};
