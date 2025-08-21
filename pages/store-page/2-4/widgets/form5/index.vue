@@ -25,8 +25,8 @@ watch(locale, (newLocale) => {
   if (i !== -1) activeLangTab.value = i
 })
 
-// แหล่งข้อมูล (มาจาก Pinia)
-const mockRows = [
+/** ✅ ทำเป็น ref เพื่อให้ splice ได้ */
+const mockRows = ref([
   {
     business_list_name_i18n: { th: 'แพ็กเกจดำน้ำตื้น', en: 'Snorkeling package', cn: '浮潜套餐' },
     business_list_price: 1590
@@ -35,23 +35,37 @@ const mockRows = [
     business_list_name_i18n: { th: 'เช่าจักรยาน 1 วัน', en: 'Bike rental (1 day)', cn: '自行车租赁（1天）' },
     business_list_price: 120
   }
-]
+])
 
-// items = ของจริง + mock (ถ้า business_list ว่าง ก็ได้แค่ mock)
+/** items = ของจริง + mock */
 const items = computed(() => {
   const real = Array.isArray(formStore.business_list) ? formStore.business_list : []
-  return [...real, ...mockRows]
+  return [...real, ...mockRows.value]
 })
 
-// ลบรายการพร้อมยืนยัน
+/** ✅ ลบรายการจากแหล่งที่ถูกต้อง */
 const removeItem = (index) => {
+  const real = Array.isArray(formStore.business_list) ? formStore.business_list : []
+  const realLen = real.length
+
   confirm.require({
     message: t('ยืนยันการลบ') + '?',
     header: t('ยืนยัน'),
     icon: 'pi pi-exclamation-triangle',
     rejectProps: { label: t('ยกเลิก'), severity: 'secondary', outlined: true },
     acceptProps: { label: t('ตกลง') },
-    accept: () => { formStore.business_list.splice(index, 1) },
+    accept: () => {
+      if (index < realLen) {
+        // ลบจากข้อมูลจริงใน store
+        formStore.business_list.splice(index, 1)
+      } else {
+        // ลบจาก mock
+        const mockIndex = index - realLen
+        if (mockIndex >= 0 && mockIndex < mockRows.value.length) {
+          mockRows.value.splice(mockIndex, 1)
+        }
+      }
+    },
   })
 }
 
@@ -64,8 +78,7 @@ const goAddItem = () => formStore.goToPage(8)
 // helper
 const showName = (item, langCode) =>
   item?.business_list_name_i18n?.[langCode] ??
-  item?.business_list_name_i18n?.th ??
-  ''
+  item?.business_list_name_i18n?.th ?? ''
 
 const formatPrice = (val) => {
   if (val == null || val === '') return '-'
@@ -73,6 +86,7 @@ const formatPrice = (val) => {
   return isNaN(num) ? String(val) : num.toLocaleString('th-TH', { minimumFractionDigits: 0 })
 }
 </script>
+
 <template>
   <div class="bg-zinc-100 min-h-screen">
     <LayoutsBaseHeader :title="t('รายการธุรกิจในแหล่งท่องเที่ยว')">
@@ -99,14 +113,14 @@ const formatPrice = (val) => {
               </div>
 
               <!-- Empty -->
-              <div v-if="!items.length" class="border border-dashed rounded-sm p-6 text-center text-zinc-500">
+              <!-- <div v-if="!items.length" class="border border-dashed rounded-sm p-6 text-center text-zinc-500">
                 <i class="pi pi-box mb-2 text-2xl block"></i>
                 <p class="mb-3">{{ t('ยังไม่มีรายการ') }}</p>
                 <Button size="small" icon="pi pi-plus" :label="t('เพิ่มรายการ')" @click="goAddItem" />
-              </div>
+              </div> -->
 
               <!-- List -->
-              <div v-else class="space-y-3">
+              <div  class="space-y-3">
                 <div v-for="(item, index) in items" :key="index"
                   class="flex items-start justify-between rounded-sm border border-zinc-200 p-3.5 hover:border-zinc-300 transition">
                   <div class="pr-3">

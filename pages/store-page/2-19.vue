@@ -5,20 +5,21 @@
 
 
         <!-- Main Content -->
-        <div class="">
+        <section class="max-w-[430px] mx-auto">
+
             <!-- Status Header -->
             <div class="text-center mb-8 bg-zinc-100 h-[10rem] pt-5">
                 <p class="text-gray-800 text-sm mb-2">การประเมินองคุณ</p>
-                <h2 class="text-xl font-semibold text-gray-800">ค่อนข้างดี</h2>
+                <!-- <h2 class="text-xl font-semibold text-gray-800">ค่อนข้างดี</h2> -->
             </div>
 
             <!-- Progress Circle -->
             <div class="bg-white rounded-lg p-2  border-2 border-gray-100 -mt-[6.5rem]  max-w-[22rem] mx-auto">
-                <h3 class="text-lg font-medium mb-2">ประเภทรับอาหาร</h3>
+                <h3 class="h-8"></h3>
 
                 <div class="flex justify-center">
                     <!-- Gauge Component -->
-                     <!-- size-36 -->
+                    <!-- size-36 -->
                     <div class="relative  w-[10rem] h-[5.5rem]">
                         <svg class=" rotate-180" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
                             <!-- Background Circle (Gauge) -->
@@ -53,44 +54,41 @@
                     ต้องปรับปรุง
                 </button>
             </div> -->
-        <van-tabs v-model:active="active" animated swipeable color="#281c74">
+            <van-tabs v-model:active="active" animated swipeable color="#281c74" :line-width="120">
                 <van-tab title="อยู่ในเกณฑ์ดี">
+                    <!-- Assessment Details -->
+                    <div class="space-y-0">
+                        <!-- Item 1 -->
+                        <div class="bg-white rounded-lg p-4 shadow-sm item-sep">
+                            <h4 class="font-medium text-gray-800 mb-3">
+                                1. ด้านความปลอดภัยในชีวิตและทรัพย์สินของนักท่องเที่ยว
+                            </h4>
+                            <p class="text-sm text-gray-600 mb-3">
+                                มีการจัดเจ้าหน้าที่รักษาความปลอดภัยไว้ตลอดเวลาก่อนหน้า
+                                ยังช่วงเวลาเก็บ มีการออกเดินตรวจความ
+                            </p>
+                        </div>
 
-                    </van-tab>
-                                    <van-tab title="ต้องปรับปรุง">
+                        <!-- Item 2 -->
+                        <div class="bg-white rounded-lg p-4 shadow-sm item-sep">
+                            <h4 class="font-medium text-gray-800 mb-3">
+                                2. ด้านความปลอดภัยในชีวิตและทรัพย์สินของนักท่องเที่ยว
+                            </h4>
+                            <p class="text-sm text-gray-600">
+                                มีการติดตั้งกล้องวงจรปิด สามารถใช้ได้อย่างและ
+                                ตรวจสอบย้อนหลัง หลังได้
+                            </p>
+                        </div>
+                    </div>
+                </van-tab>
+                <van-tab title="ต้องปรับปรุง">
 
-                    </van-tab>
+                </van-tab>
             </van-tabs>
 
 
-            <!-- Assessment Details -->
-            <div class="space-y-4">
-                <!-- Item 1 -->
-                <div class="bg-white rounded-lg p-4 shadow-sm">
-                    <h4 class="font-medium text-gray-800 mb-3">
-                        1. ด้านความปลอดภัยในชีวิตและทรัพย์สินของนักท่องเที่ยว
-                    </h4>
-                    <p class="text-sm text-gray-600 mb-3">
-                        มีการจัดเจ้าหน้าที่รักษาความปลอดภัยไว้ตลอดเวลาก่อนหน้า
-                        ยังช่วงเวลาเก็บ มีการออกเดินตรวจความ
-                    </p>
-                    <p class="text-sm text-gray-600">
-                        เรียบร้อยอยู่สม่ำเสมอ
-                    </p>
-                </div>
 
-                <!-- Item 2 -->
-                <div class="bg-white rounded-lg p-4 shadow-sm">
-                                        <h4 class="font-medium text-gray-800 mb-3">
-                        2. ด้านความปลอดภัยในชีวิตและทรัพย์สินของนักท่องเที่ยว
-                    </h4>
-                    <p class="text-sm text-gray-600">
-                        มีการติดตั้งกล้องวงจรปิด สามารถใช้ได้อย่างและ
-                        ตรวจสอบย้อนหลัง หลังได้
-                    </p>
-                </div>
-            </div>
-        </div>
+        </section>
     </div>
 </template>
 
@@ -123,11 +121,22 @@ onMounted(() => {
 }
 
 .van-tabs__line {
-  width: 120px !important;
-  background: #281c74 !important;
-}
-.van-tab {
-  --van-tab-active-text-color: #281c74 !important
+    width: 120px !important;
+    background: #281c74 !important;
 }
 
+.van-tab {
+    --van-tab-active-text-color: #281c74 !important
+}
+
+.item-sep:not(:last-child)::after {
+    content: "";
+    display: block;
+    width: 90%;
+    height: 1px;
+    background-color: rgb(229 231 235);
+    /* zinc-200 */
+    margin: 1rem auto 0;
+    /* เว้นบน 16px และจัดกลาง */
+}
 </style>

@@ -36,7 +36,7 @@ const avg = ref(0);
 
 const loadComment = async () => {
     try {
-        const res = await dataApi.getComments(route.params.id);
+        const res = await dataApi.getComments();
         resComment.value = res.data.data?.comments;
         avg.value = res.data.data?.AVG
     } catch (error) {
@@ -99,7 +99,7 @@ onMounted(() => loadComment());
 
   <!-- กลุ่มขวา: ดูทั้งหมด -->
   <NuxtLink
-    :to="`/client/ratings/${route.params.id}`"
+    :to="`#`"
     class="text-gray-500 text-sm inline-flex items-center gap-1 hover:text-zinc-700"
   >
     {{ t('ดูทั้งหมด') }}

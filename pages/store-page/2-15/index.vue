@@ -3,8 +3,10 @@
         <LayoutsBaseHeader :title="t('พรีวิว')" :showBack="true" back-to="/">
             <template #right>
                 <div class="flex gap-2">
-                    <i @click="showShare = true" class="fa-solid fa-arrow-up-from-bracket"
-                        style="color: white;font-size: 22px;"></i>
+                    <i
+  class="fa-solid fa-xmark"
+  style="color: white; font-size: 22px;"
+></i>
                 </div>
             </template>
         </LayoutsBaseHeader>
@@ -109,7 +111,7 @@
 
         <div class="flex justify-center gap-2 mt-10 pb-2" v-if="resProfile?.role_id == 3">
             <Button :loading="isloadingAxi"
-                @click="navigateTo(`/inspector/inspec-vender/${route.params.id}/safety-form/form1/`)"
+               
                 :label="t('ตรวจสอบมาตรฐาน')" rounded severity="primary" class="" />
             <Button :loading="isloadingAxi" icon="fa-regular fa-comment-dots" :label="t('ติดต่อ')" rounded
                 severity="primary" variant="outlined" class="" :pt="{
@@ -194,7 +196,7 @@ onMounted(() => {
 const resInfo = ref();
 const loadDataInfo = async () => {
     try {
-        const res = await dataApi.getBusinessById(route.params.id);
+        const res = await dataApi.getBusinessById();
         resInfo.value = res.data.data;
 
         console.log(resInfo.value)

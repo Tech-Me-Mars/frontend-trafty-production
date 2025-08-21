@@ -11,6 +11,11 @@ const { t } = useI18n();
 
 ช่วยปรับให้มเหมือนuiตามรูปมาที่สุด ทั้ง padding margin ทั้งสี ทั้งความโค้ง (rounded) และตำแหน่งทุกอย่าง อย่าปราณีต
 
+
+    <section class="max-w-[430px] mx-auto">
+
+
+
 <van-tabs
   v-model:active="activeLangTab"
   type="line"

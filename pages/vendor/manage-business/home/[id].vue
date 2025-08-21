@@ -1,44 +1,8 @@
 <template>
     <div class="min-h-screen bg-zinc-50">
-        <!-- <van-nav-bar :title="t('ธุรกิจในแหล่งท่องเที่ยว')">
-            <template #left>
-                <drawer-menu />
-            </template>
+
+        <LayoutsBaseHeader :title="t('ธุรกิจในแหล่งท่องเที่ยว')" showMenu>
             <template #right>
-                <div class="flex items-center gap-2">
-                    <div class="border p-0.5 rounded-md w-7 flex justify-center items-center">
-                        <i class="fa-regular fa-comment-dots" style="color: white;font-size: 22px;"></i>
-                    </div>
-                    <div class="border p-0.5 rounded-md w-7 flex justify-center items-center">
-                        <van-badge :dot="resNotify.length > 0 ? true : false">
-                            <i @click="navigateTo(`/vendor/notifications/${route.params.id}`)"
-                                class="fa-regular fa-bell" style="color: white;font-size: 22px;"></i>
-                        </van-badge>
-                    </div>
-
-                </div>
-
-            </template>
-        </van-nav-bar> -->
-        <!-- <LayoutsBaseHeader :title="t('ธุรกิจในแหล่งท่องเที่ยว')">
-            <template #right>
-                <div class="flex items-center gap-2">
-                    <div class="border p-0.5 rounded-md w-7 flex justify-center items-center">
-                        <i class="fa-regular fa-comment-dots" style="color: white;font-size: 22px;"></i>
-                    </div>
-                    <div class="border p-0.5 rounded-md w-7 flex justify-center items-center">
-                        <van-badge :dot="resNotify.length > 0 ? true : false">
-                            <i @click="navigateTo(`/vendor/notifications/${route.params.id}`)"
-                                class="fa-regular fa-bell" style="color: white;font-size: 22px;"></i>
-                        </van-badge>
-                    </div>
-
-                </div>
-
-            </template>
-        </LayoutsBaseHeader> -->
-                    <LayoutsBaseHeader :title="t('ธุรกิจในแหล่งท่องเที่ยว')" showMenu >
-                        <template #right>
                 <div class="flex items-center gap-2">
                     <div class="border p-0.5 rounded-md w-7 flex justify-center items-center">
                         <i class="fa-regular fa-comment-dots" style="color: white;font-size: 22px;"></i>
@@ -58,9 +22,7 @@
         <section class="">
             <!-- Header Section -->
             <div class="flex items-center w-full card mb-2">
-                <!-- Image -->
-                <!-- <img src="https://via.placeholder.com/50" alt="Business Image" class="w-12 h-12 rounded-full object-cover"> -->
-                <!-- {{ resBusinessAll?.business_name?.image_profile }} -->
+              
                 <Image :src="resBusinessAll?.business_name?.image_profile" alt="Image" width="50"
                     class="object-cover w-20 h-20 rounded-md shadow-md"
                     :pt="{ image: { class: 'object-cover w-20 h-20 rounded-md shadow-md' } }" preview />
@@ -69,17 +31,11 @@
                     <h2 class="text-lg font-bold">{{ resBusinessAll?.business_name?.shop_name }}</h2>
                     <p class="text-sm text-gray-500">{{ resBusinessAll?.business_name?.business_type_name }}</p>
 
-                    <!-- <span v-if="resBusinessAll?.business_name?.status_survey"
-                        class="flex items-center justify-center px-2 py-1 text-xs font-medium text-white bg-orange-600 rounded">
-                        <i class="fa-solid fa-circle-exclamation mr-1"></i>
-                        {{ resBusinessAll?.business_name?.status_survey }}
-                    </span> -->
                     <div>
-                        <span 
-                        class=" px-2 py-1 text-xs font-medium text-white bg-lime-700 rounded">
-                        <i class="fa-solid fa-clipboard-check mr-1"></i>
-                        ประเมินผ่านแล้ว
-                    </span>
+                        <span class=" px-2 py-1 text-xs font-medium text-white bg-lime-700 rounded">
+                            <i class="fa-solid fa-clipboard-check mr-1"></i>
+                            ประเมินผ่านแล้ว
+                        </span>
                     </div>
 
                 </div>
@@ -133,12 +89,7 @@
                         <div class="text-gray-600 text-sm">{{ t('ใบเตือน') }}</div>
                     </div>
                 </div>
-                <!-- <div class="bg-white text-center p-4 ">
-                    <div>
-                        <div class="text-xl font-bold">{{ resBusinessAll?.count_comment }}</div>
-                        <div class="text-gray-600 text-sm">{{ t('คอมเมนต์') }}</div>
-                    </div>
-                </div> -->
+               
             </div>
 
             <div class="flex justify-between items-center px-4">
