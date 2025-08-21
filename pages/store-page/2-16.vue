@@ -62,7 +62,7 @@
       </section>
 
       <!-- คำถาม (mock ให้เหมือนภาพ—ใช้ 2 บล็อกหลัก + 2 บล็อกย่อยรวมเป็น 4 ข้อ) -->
-      <section class="max-w-[420px] mx-auto px-4">
+      <section class="max-w-[430px] mx-auto px-4">
         <div class="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
           <h3 class="text-[13px] font-semibold text-zinc-700 mb-3">
             {{ t('รายละเอียดการตรวจสอบมาตรฐานด้านความปลอดภัยสำหรับสถานที่ท่องเที่ยว') }}

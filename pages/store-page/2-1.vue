@@ -8,7 +8,7 @@ import { useI18n } from 'vue-i18n';
 
 // I18n setup
 const { t } = useI18n();
-
+const locale =ref("ไทย"); // Default locale
 // Router setup
 const router = useRouter();
 

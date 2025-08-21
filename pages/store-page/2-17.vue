@@ -1,7 +1,7 @@
 <template>
     <div class="bg-zinc-100 min-h-screen">
       <!-- เนื้อหาให้กึ่งกลางแนวตั้ง (กันทับปุ่มล่างด้วย pb แบบ dynamic) -->
-      <div class="max-w-md mx-auto px-6">
+      <div class="max-w-[430px] mx-auto px-6">
         <div
           class="min-h-[calc(100vh-120px)] grid place-content-center text-center"
           :style="{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 88px)' }"

@@ -2,8 +2,9 @@
     <div class="bg-zinc-100 min-h-screen">
         <!-- <van-nav-bar :title="t('ธุรกิจของฉัน')" left-arrow @click-left="navigateTo('/')">
         </van-nav-bar> -->
-        <LayoutsBaseHeader :title="t('ธุรกิจของฉัน')" :showBack="true"
-        backTo="/"></LayoutsBaseHeader>
+        <LayoutsBaseHeader :title="t('ธุรกิจของฉัน')" :showBack="true" backTo="/"></LayoutsBaseHeader>
+    <section class="max-w-[430px] mx-auto">
+
         <div class="flex justify-between flex-wrap gap-2 bg-white px-4 py-3">
             <h1 class="text-xl font-semibold">{{ t('ธุรกิจของฉัน') }} ({{ resBusiness.length }})</h1>
             <!-- <Select v-model="status_select" disabled :options="statusOptions" optionLabel="name" optionValue="id"
@@ -68,7 +69,7 @@
                 </div>
             </div>
         </div>
-
+    </section>
     </div>
 </template>
 <style scoped>
@@ -111,18 +112,18 @@ const statusOptions = ref([
 ])
 
 const getStatusText = (status) => {
-  switch (status) {
-    case 0:
-    case 3:
-      return t('รอตรวจสอบ');
-    case 4:
-      return t('มีใบเตือน');
-    case 5:
-      return t('ตอบกลับใบเตือนแล้ว');
-    case 2:
-      return t('อนุมัติแล้ว');
-    default:
-      return t('ไม่ทราบสถานะ');
-  }
+    switch (status) {
+        case 0:
+        case 3:
+            return t('รอตรวจสอบ');
+        case 4:
+            return t('มีใบเตือน');
+        case 5:
+            return t('ตอบกลับใบเตือนแล้ว');
+        case 2:
+            return t('อนุมัติแล้ว');
+        default:
+            return t('ไม่ทราบสถานะ');
+    }
 };
 </script>

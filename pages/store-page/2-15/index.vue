@@ -3,57 +3,55 @@
         <LayoutsBaseHeader :title="t('พรีวิว')" :showBack="true" back-to="/">
             <template #right>
                 <div class="flex gap-2">
-                    <i
-  class="fa-solid fa-xmark"
-  style="color: white; font-size: 22px;"
-></i>
+                    <i class="fa-solid fa-xmark" style="color: white; font-size: 22px;"></i>
                 </div>
             </template>
         </LayoutsBaseHeader>
 
+        <section class="max-w-[430px] mx-auto">
 
 
-        <!-- <van-share-sheet v-model:show="showShare" title="Share" :options="options" /> -->
-        <van-share-sheet v-model:show="showShare" :title="t('แชร์')"
-            :description="`${t('แชร์')} '${resInfo?.shop_name}' ${t('ไปยังโซเชียลให้เพื่อนคุณรู้')}!`"
-            :options="options" @select="onSelect">
-            <template #title>
-                <div class="flex items-center gap-2">
-                    <img :src="resInfo?.image_profile" alt="Logo" class="w-20 h-20 rounded-xl object-cover" />
-                    <span class="text-md font-bold text-gray-800">{{ resInfo?.shop_name }}</span>
-                </div>
-            </template>
+            <!-- <van-share-sheet v-model:show="showShare" title="Share" :options="options" /> -->
+            <van-share-sheet v-model:show="showShare" :title="t('แชร์')"
+                :description="`${t('แชร์')} '${resInfo?.shop_name}' ${t('ไปยังโซเชียลให้เพื่อนคุณรู้')}!`"
+                :options="options" @select="onSelect">
+                <template #title>
+                    <div class="flex items-center gap-2">
+                        <img :src="resInfo?.image_profile" alt="Logo" class="w-20 h-20 rounded-xl object-cover" />
+                        <span class="text-md font-bold text-gray-800">{{ resInfo?.shop_name }}</span>
+                    </div>
+                </template>
 
-            <!-- Custom Description -->
-            <template #description>
-                <p class="text-sm text-gray-500  border-b border-gray-300 pb-2">
-                    {{ t('แชร์') }} '{{ resInfo?.shop_name }}' {{ t('ไปยังโซเชียลให้เพื่อนคุณรู้') }}!
-                </p>
-            </template>
-        </van-share-sheet>
-        <div class="relative">
-            <img :src="resInfo?.image_cover" alt="Food" class=" w-full h-48 object-cover" />
-        </div>
-        <div class="p-4  bg-white">
-            <!-- Title and Rating Section -->
-            <div class="flex items-center justify-between mt-4">
-                <h1 class="text-xl font-semibold">{{ resInfo?.shop_name }}</h1>
-                <div class="flex items-center text-gray-700">
-                    <i class="fa-heart cursor-pointer text-gray-400 transition-all duration-300 transform" :class="{
-                        'fa-regular': !isLiked,
-                        'fa-solid text-rose-600 scale-110': isLiked,
-                    }" @click="toggleLike" style="font-size: 22px"></i>
-                </div>
+                <!-- Custom Description -->
+                <template #description>
+                    <p class="text-sm text-gray-500  border-b border-gray-300 pb-2">
+                        {{ t('แชร์') }} '{{ resInfo?.shop_name }}' {{ t('ไปยังโซเชียลให้เพื่อนคุณรู้') }}!
+                    </p>
+                </template>
+            </van-share-sheet>
+            <div class="relative">
+                <img :src="resInfo?.image_cover" alt="Food" class=" w-full h-48 object-cover" />
             </div>
-            <div class="flex items-center text-orange-500">
-                <star-review class="mr-1" />
-                <span class="text-sm font-semibold">{{ resInfo?.star }}</span>
-            </div>
-            <p class="text-sm text-gray-400">{{ resInfo?.business_type_name }}</p>
-            <p class="text-sm text-gray-700">{{ resInfo?.shop_address }}</p>
+            <div class="p-4  bg-white">
+                <!-- Title and Rating Section -->
+                <div class="flex items-center justify-between mt-4">
+                    <h1 class="text-xl font-semibold">{{ resInfo?.shop_name }}</h1>
+                    <div class="flex items-center text-gray-700">
+                        <i class="fa-heart cursor-pointer text-gray-400 transition-all duration-300 transform" :class="{
+                            'fa-regular': !isLiked,
+                            'fa-solid text-rose-600 scale-110': isLiked,
+                        }" @click="toggleLike" style="font-size: 22px"></i>
+                    </div>
+                </div>
+                <div class="flex items-center text-orange-500">
+                    <star-review class="mr-1" />
+                    <span class="text-sm font-semibold">{{ resInfo?.star }}</span>
+                </div>
+                <p class="text-sm text-gray-400">{{ resInfo?.business_type_name }}</p>
+                <p class="text-sm text-gray-700">{{ resInfo?.shop_address }}</p>
 
-            <!-- Details Section -->
-            <!-- <div class="mt-4">
+                <!-- Details Section -->
+                <!-- <div class="mt-4">
                 <h2 class="text-gray-800 font-semibold">{{ t('รายละเอียด') }}</h2>
                 <p class="text-sm text-gray-600 mt-2">
                     {{ resInfo?.shop_details }}
@@ -68,62 +66,61 @@
                     <p><strong>{{ t('เบอร์ติดต่อ') }}:</strong> {{ resInfo?.shop_phone }}</p>
                 </div>
             </div> -->
-            <div class="mt-2 text-sm text-gray-800 space-y-2">
-                <h2 class="text-gray-800 font-semibold">{{ t('รายละเอียด') }}</h2>
-                <p class="text-sm text-gray-600 mt-2">
-                    {{ resInfo?.shop_details }}
-                </p>
-                <p class="flex items-start gap-2">
-                    <i class="pi pi-calendar text-yellow-500 text-lg mt-1" />
-                    <span>
-                        <strong class="text-black">{{ t('วันที่ทำการ') }} :</strong>
-                        <span class="text-primary-700">
-                            <template v-for="(item, index) in resInfo?.shop_days" :key="index">
-                                {{ item?.day_name }}<span v-if="index !== resInfo.shop_days.length - 1"> - </span>
-                            </template>
+                <div class="mt-2 text-sm text-gray-800 space-y-2">
+                    <h2 class="text-gray-800 font-semibold">{{ t('รายละเอียด') }}</h2>
+                    <p class="text-sm text-gray-600 mt-2">
+                        {{ resInfo?.shop_details }}
+                    </p>
+                    <p class="flex items-start gap-2">
+                        <i class="pi pi-calendar text-yellow-500 text-lg mt-1" />
+                        <span>
+                            <strong class="text-black">{{ t('วันที่ทำการ') }} :</strong>
+                            <span class="text-primary-700">
+                                <template v-for="(item, index) in resInfo?.shop_days" :key="index">
+                                    {{ item?.day_name }}<span v-if="index !== resInfo.shop_days.length - 1"> - </span>
+                                </template>
+                            </span>
                         </span>
-                    </span>
-                </p>
+                    </p>
 
-                <p class="flex items-start gap-2">
-                    <i class="pi pi-clock text-blue-500 text-lg mt-1" />
-                    <span>
-                        <strong class="text-black">{{ t('เวลาเปิด - ปิด') }} :</strong>
-                        <span class="text-primary-700">{{ resInfo?.shop_time }}</span>
-                    </span>
-                </p>
+                    <p class="flex items-start gap-2">
+                        <i class="pi pi-clock text-blue-500 text-lg mt-1" />
+                        <span>
+                            <strong class="text-black">{{ t('เวลาเปิด - ปิด') }} :</strong>
+                            <span class="text-primary-700">{{ resInfo?.shop_time }}</span>
+                        </span>
+                    </p>
 
-                <p class="flex items-start gap-2">
-                    <i class="pi pi-phone text-green-500 text-lg mt-1" />
-                    <span>
-                        <strong class="text-black">{{ t('เบอร์ติดต่อ') }} :</strong>
-                        <span class="text-primary-700">{{ resInfo?.shop_phone }}</span>
-                    </span>
-                </p>
+                    <p class="flex items-start gap-2">
+                        <i class="pi pi-phone text-green-500 text-lg mt-1" />
+                        <span>
+                            <strong class="text-black">{{ t('เบอร์ติดต่อ') }} :</strong>
+                            <span class="text-primary-700">{{ resInfo?.shop_phone }}</span>
+                        </span>
+                    </p>
+                </div>
+                <widgetSocial :resInfo="resInfo?.social_medias" />
             </div>
-            <widgetSocial :resInfo="resInfo?.social_medias" />
-        </div>
-        <widgetItemsBusiness :resInfo="resInfo?.business_lists" />
+            <widgetItemsBusiness :resInfo="resInfo?.business_lists" />
 
 
-        <widgetReview :resInfo="resInfo?.comments" />
-        <widgetPolicy />
+            <widgetReview :resInfo="resInfo?.comments" />
+            <widgetPolicy />
 
-        <div class="flex justify-center gap-2 mt-10 pb-2" v-if="resProfile?.role_id == 3">
-            <Button :loading="isloadingAxi"
-               
-                :label="t('ตรวจสอบมาตรฐาน')" rounded severity="primary" class="" />
-            <Button :loading="isloadingAxi" icon="fa-regular fa-comment-dots" :label="t('ติดต่อ')" rounded
-                severity="primary" variant="outlined" class="" :pt="{
-                    label: {
-                        class: 'text-primary-main'
-                    },
-                    root: {
-                        class: '!border-primary-main'
-                    },
+            <div class="flex justify-center gap-2 mt-10 pb-2" v-if="resProfile?.role_id == 3">
+                <Button :loading="isloadingAxi" :label="t('ตรวจสอบมาตรฐาน')" rounded severity="primary" class="" />
+                <Button :loading="isloadingAxi" icon="fa-regular fa-comment-dots" :label="t('ติดต่อ')" rounded
+                    severity="primary" variant="outlined" class="" :pt="{
+                        label: {
+                            class: 'text-primary-main'
+                        },
+                        root: {
+                            class: '!border-primary-main'
+                        },
 
-                }" />
-        </div>
+                    }" />
+            </div>
+        </section>
     </div>
 </template>
 <style scoped>
