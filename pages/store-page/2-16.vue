@@ -6,7 +6,7 @@
     <main class="pb-28">
       <!-- การกรอกข้อมูลทั่วไป -->
       <section class="max-w-[420px] mx-auto p-4">
-        <div class="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
+        <div class="rounded-sm border border-zinc-200 bg-white p-4 shadow-sm">
           <h3 class="text-[13px] font-semibold text-zinc-700 mb-2">
             {{ t('รายละเอียดการตรวจสอบมาตรฐานด้านความปลอดภัยสำหรับสถานที่ท่องเที่ยว') }}
           </h3>
@@ -137,8 +137,7 @@
     </main>
 
     <!-- ปุ่มล่างติดขอบเสมอ -->
-    <div class="fixed bottom-0 left-0 right-0 bg-white/85 backdrop-blur-sm border-t border-zinc-200"
-         :style="{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 8px)' }">
+    <div >
       <div class="max-w-[420px] mx-auto px-4 pt-2">
         <Button :label="t('ส่งแบบประเมิน')" class="w-full"
                 severity="primary" rounded

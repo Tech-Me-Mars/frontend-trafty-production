@@ -8,81 +8,145 @@
                 @click="openCreate" />
         </div> -->
 
-        <main>
-            <!-- {{ resBusinessAll }} -->
-            <div class="p-4 flex-col space-y-3" v-if="resBusinessAll.length > 0">
-                <div v-for="(item, index) in resBusinessAll" :key="index"
-                    class="border rounded-lg shadow-md bg-white w-full max-w-md mx-auto">
-                    <div class="p-3">
-                        <!-- ชื่อธุรกิจ -->
-                        <div class="flex justify-between items-center">
-                            <h2 class="text-lg font-semibold text-gray-800">{{ getI18n(item?.business_list_name_i18n,
-                                locale)
-                                }}</h2>
-                            <p class="text-gray-800 ">฿{{ item?.business_list_price }}</p>
-                        </div>
-                        <!-- ปุ่มแอคชัน -->
-                        <hr class="border-t mt-2 mb-4">
-                        <div class="flex  gap-3">
-                            <Button :loading="togglingId === item.id" :disabled="isloadingAxi"
-                                :label="isFlagTrue(item.status) ? t('ไม่แสดง') : t('แสดง')"
-                                :icon="isFlagTrue(item.status) ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"
-                                severity="primary" variant="outlined" class="w-full" @click="showConfirmToggle(item)"
-                                :pt="{
-                                    label: { class: 'text-primary-main' },
-                                    root: { class: '!border-primary-main' },
-                                }" />
-                            <Button :loading="isloadingAxi" :label="t('แก้ไข')" severity="primary" variant="outlined"
-                                class="w-full" @click="openEdit(item)" :pt="{
-                                    label: { class: 'text-primary-main' },
-                                    root: { class: '!border-primary-main' }
-                                }" />
+        <main class="max-w-[430px] mx-auto">
+            <van-tabs v-model:active="activeTab" animated color="#202c54" :line-width="100">
+                <!-- แท็บ: แสดงอยู่ -->
+                <van-tab :title="t('แสดงอยู่')" class="pt-2">
+                    <div class="p-4 flex-col space-y-3" v-if="listDisplayed.length > 0">
+                        <div v-for="(item, index) in listDisplayed" :key="item.id"
+                            class="border rounded-lg shadow-md bg-white w-full max-w-md mx-auto">
+                            <div class="p-3">
+                                <div class="flex justify-between items-center">
+                                    <h2 class="text-lg font-semibold text-gray-800">
+                                        {{ getI18n(item?.business_list_name_i18n, locale) }}
+                                    </h2>
+                                    <p class="text-gray-800">฿{{ item?.business_list_price }}</p>
+                                </div>
 
-                            <Button :loading="deletingId === item.id" :disabled="isloadingAxi"
-                                @click="showConfirmDel(item)" icon="fa-regular fa-trash-can" label="" severity="danger"
-                                variant="outlined" class="!w-[10rem]" />
+                                <hr class="border-t mt-2 mb-4" />
+
+                                <div class="flex gap-3">
+                                    <!-- ปุ่มของแท็บแสดงอยู่ => ไม่แสดง -->
+                                    <Button :loading="togglingId === item.id" :disabled="isloadingAxi"
+                                        :label="t('ไม่แสดง')" icon="fa-regular fa-eye-slash" severity="primary"
+                                        variant="outlined" class="w-full" @click="showConfirmToggle(item)"
+                                        :pt="{ label: { class: 'text-primary-main' }, root: { class: '!border-primary-main' } }" />
+                                    <Button :loading="isloadingAxi" :label="t('แก้ไข')" severity="primary"
+                                        variant="outlined" class="w-full" @click="openEdit(item)"
+                                        :pt="{ label: { class: 'text-primary-main' }, root: { class: '!border-primary-main' } }" />
+                                    <Button :loading="deletingId === item.id" :disabled="isloadingAxi"
+                                        @click="showConfirmDel(item)" icon="fa-regular fa-trash-can" label=""
+                                        severity="danger" variant="outlined" class="!w-[10rem]" />
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                    <SharedNoData v-else />
+                </van-tab>
 
-            <SharedNoData v-else />
-        </main>
-        <van-action-sheet v-model:show="showEditSheet" :close-on-click-overlay="true" :round="true"
-            safe-area-inset-bottom :title="t(isEditMode ? 'แก้ไขรายการ' : 'เพิ่มรายการสินค้า')">
-            <div class="p-4">
-                <van-tabs v-model:active="activeLangTab" type="line" sticky animated color="#202c54">
-                    <van-tab v-for="(lang, idx) in langs" :key="lang.code" :title="lang.label" :name="idx">
-                        <div class="space-y-4 py-2">
-                            <div>
-                                <label class="label-input block mb-1">{{ t('ชื่อรายการ') }}</label>
-                                <InputText v-model="business_list_name_i18n[lang.code]" :placeholder="t('ชื่อรายการ')"
-                                    class="w-full custom-border"
-                                    :invalid="!!getFieldError('business_list_name_i18n', lang.code)" />
-                                <p v-if="getFieldError('business_list_name_i18n', lang.code)" class="error-text">
-                                    {{ getFieldError('business_list_name_i18n', lang.code) }}
-                                </p>
-                            </div>
+                <!-- แท็บ: ไม่แสดง -->
+                <van-tab :title="t('ไม่แสดง')" class="pt-2">
+                    <div class="p-4 flex-col space-y-3" v-if="listHidden.length > 0">
+                        <div v-for="(item, index) in listHidden" :key="item.id"
+                            class="border rounded-lg shadow-md bg-white w-full max-w-md mx-auto">
+                            <div class="p-3">
+                                <div class="flex justify-between items-center">
+                                    <h2 class="text-lg font-semibold text-gray-800">
+                                        {{ getI18n(item?.business_list_name_i18n, locale) }}
+                                    </h2>
+                                    <p class="text-gray-800">฿{{ item?.business_list_price }}</p>
+                                </div>
 
-                            <div>
-                                <label class="label-input block mb-1">{{ t('ราคา') }}</label>
-                                <InputText v-model="business_list_price" :placeholder="t('ราคา')"
-                                    class="w-full custom-border" :invalid="!!errors?.business_list_price" />
-                                <p v-if="errors?.business_list_price" class="error-text">
-                                    {{ errors?.business_list_price }}
-                                </p>
+                                <hr class="border-t mt-2 mb-4" />
+
+                                <div class="flex gap-3">
+                                    <!-- ปุ่มของแท็บไม่แสดง => แสดง -->
+                                    <Button :loading="togglingId === item.id" :disabled="isloadingAxi"
+                                        :label="t('แสดง')" icon="fa-regular fa-eye" severity="primary"
+                                        variant="outlined" class="w-full" @click="showConfirmToggle(item)"
+                                        :pt="{ label: { class: 'text-primary-main' }, root: { class: '!border-primary-main' } }" />
+                                    <Button :loading="isloadingAxi" :label="t('แก้ไข')" severity="primary"
+                                        variant="outlined" class="w-full" @click="openEdit(item)"
+                                        :pt="{ label: { class: 'text-primary-main' }, root: { class: '!border-primary-main' } }" />
+                                    <Button :loading="deletingId === item.id" :disabled="isloadingAxi"
+                                        @click="showConfirmDel(item)" icon="fa-regular fa-trash-can" label=""
+                                        severity="danger" variant="outlined" class="!w-[10rem]" />
+                                </div>
                             </div>
                         </div>
-                    </van-tab>
-                </van-tabs>
+                    </div>
+                    <SharedNoData v-else />
+                </van-tab>
+            </van-tabs>
+        </main>
+<van-action-sheet
+  v-model:show="showEditSheet"
+  :close-on-click-overlay="true"
+  :round="true"
+  safe-area-inset-bottom
+>
+  <!-- Header ที่ทำเอง -->
+  <template #default>
+    <div class="sticky top-0 bg-white px-4 pt-3 pb-2 border-b border-zinc-200">
+      <div class="flex items-center justify-between">
+        <h3 class="text-base font-semibold text-zinc-800">
+          {{ t(isEditMode ? 'แก้ไขรายการ' : 'เพิ่มรายการสินค้า') }}
+        </h3>
 
-                <div class="mt-4 grid grid-cols-2 gap-3">
-                    <Button :label="t('ยกเลิก')" severity="secondary" class="w-full" @click="showEditSheet = false" />
-                    <Button :loading="isloadingAxi" :label="t('บันทึก')" severity="primary" class="w-full"
-                        @click="onSave" />
-                </div>
+        <button
+          type="button"
+          aria-label="Close"
+          @click="showEditSheet = false"
+          class="w-7 h-7 rounded-full bg-zinc-100 border border-zinc-200
+                 text-zinc-500 flex items-center justify-center
+                 hover:bg-zinc-200 active:scale-[.98] transition"
+        >
+          <i class="fa-solid fa-xmark text-[12px]"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- เนื้อหาเดิมของคุณ -->
+    <div class="p-4">
+      <van-tabs v-model:active="activeLangTab" type="line" sticky animated color="#202c54">
+        <van-tab v-for="(lang, idx) in langs" :key="lang.code" :title="lang.label" :name="idx">
+          <div class="space-y-4 py-2">
+            <div>
+              <label class="label-input block mb-1">{{ t('ชื่อรายการ') }}</label>
+              <InputText
+                v-model="business_list_name_i18n[lang.code]"
+                :placeholder="t('ชื่อรายการ')"
+                class="w-full custom-border"
+                :invalid="!!getFieldError('business_list_name_i18n', lang.code)"
+              />
+              <p v-if="getFieldError('business_list_name_i18n', lang.code)" class="error-text">
+                {{ getFieldError('business_list_name_i18n', lang.code) }}
+              </p>
             </div>
-        </van-action-sheet>
+
+            <div>
+              <label class="label-input block mb-1">{{ t('ราคา') }}</label>
+              <InputText
+                v-model="business_list_price"
+                :placeholder="t('ราคา')"
+                class="w-full custom-border"
+                :invalid="!!errors?.business_list_price"
+              />
+              <p v-if="errors?.business_list_price" class="error-text">
+                {{ errors?.business_list_price }}
+              </p>
+            </div>
+          </div>
+        </van-tab>
+      </van-tabs>
+
+      <div class="mt-4 grid grid-cols-2 gap-3">
+        <Button :label="t('ยกเลิก')" severity="secondary" class="w-full" @click="showEditSheet = false" />
+        <Button :loading="isloadingAxi" :label="t('บันทึก')" severity="primary" class="w-full" @click="onSave" />
+      </div>
+    </div>
+  </template>
+</van-action-sheet>
         <ConfirmDialog></ConfirmDialog>
 
 
@@ -112,14 +176,24 @@ const route = useRoute()
 const router = useRouter()
 const confirm1 = useConfirm()
 
+// แท็บ 0=แสดงอยู่, 1=ไม่แสดง
+const activeTab = ref(0)
+
+const listDisplayed = computed(() =>
+    resBusinessAll.value.filter((x) => isFlagTrue(x.status))
+)
+const listHidden = computed(() =>
+    resBusinessAll.value.filter((x) => !isFlagTrue(x.status))
+)
+
 /* ------- helper getI18n (ไม่ยุ่ง UI) ------- */
 const getI18n = (val, loc) => {
-  try {
-    const obj = typeof val === 'string' ? JSON.parse(val) : val
-    return obj?.[loc.value] ?? obj?.th ?? Object.values(obj || {})[0] ?? ''
-  } catch {
-    return ''
-  }
+    try {
+        const obj = typeof val === 'string' ? JSON.parse(val) : val
+        return obj?.[loc.value] ?? obj?.th ?? Object.values(obj || {})[0] ?? ''
+    } catch {
+        return ''
+    }
 }
 
 /* ------- toast & notification (คงของเดิม) ------- */
@@ -145,68 +219,68 @@ const showNotification = (config) => {
 
 /* ================= MOCKUP DATA (2-3 รายการ) ================= */
 const resBusinessAll = ref([
-  {
-    id: 'bl-001',
-    business_id: route.params.id,
-    business_list_name_i18n: { th: 'กาแฟดริปพิเศษ', en: 'Special Drip Coffee', cn: '手冲咖啡' },
-    business_list_price: '95',
-    status: true
-  },
-  {
-    id: 'bl-002',
-    business_id: route.params.id,
-    business_list_name_i18n: { th: 'เค้กช็อกโกแลตเข้มข้น', en: 'Dark Chocolate Cake', cn: '黑巧克力蛋糕' },
-    business_list_price: '120',
-    status: true
-  },
-  {
-    id: 'bl-003',
-    business_id: route.params.id,
-    business_list_name_i18n: { th: 'ชามะนาวโซดา', en: 'Lemon Tea Soda', cn: '柠檬茶苏打' },
-    business_list_price: '75',
-    status: false
-  }
+    {
+        id: 'bl-001',
+        business_id: route.params.id,
+        business_list_name_i18n: { th: 'กาแฟดริปพิเศษ', en: 'Special Drip Coffee', cn: '手冲咖啡' },
+        business_list_price: '95',
+        status: true
+    },
+    {
+        id: 'bl-002',
+        business_id: route.params.id,
+        business_list_name_i18n: { th: 'เค้กช็อกโกแลตเข้มข้น', en: 'Dark Chocolate Cake', cn: '黑巧克力蛋糕' },
+        business_list_price: '120',
+        status: true
+    },
+    {
+        id: 'bl-003',
+        business_id: route.params.id,
+        business_list_name_i18n: { th: 'ชามะนาวโซดา', en: 'Lemon Tea Soda', cn: '柠檬茶苏打' },
+        business_list_price: '75',
+        status: false
+    }
 ])
 
 /* ================= ลบ ================= */
 const itemForDelete = ref(null)
 const deletingId = ref(null)
 const showConfirmDel = (item) => {
-  itemForDelete.value = item
-  confirm1.require({
-    message: `${t('ยืนยันการลบ')}?`,
-    header: 'Confirmation',
-    icon: 'pi pi-exclamation-triangle',
-    rejectProps: { label: t('ยกเลิก'), severity: 'secondary', outlined: true },
-    acceptProps: { label: t('ตกลง') },
-    accept: async () => {
-      deletingId.value = item.id
-      // mock ลบตรงๆ ใน list
-      resBusinessAll.value = resBusinessAll.value.filter(x => x.id !== item.id)
-      deletingId.value = null
-      itemForDelete.value = null
-    }
-  })
+    itemForDelete.value = item
+    confirm1.require({
+        message: `${t('ยืนยันการลบ')}?`,
+        header: 'Confirmation',
+        icon: 'pi pi-exclamation-triangle',
+        rejectProps: { label: t('ยกเลิก'), severity: 'secondary', outlined: true },
+        acceptProps: { label: t('ตกลง') },
+        accept: async () => {
+            deletingId.value = item.id
+            // mock ลบตรงๆ ใน list
+            resBusinessAll.value = resBusinessAll.value.filter(x => x.id !== item.id)
+            deletingId.value = null
+            itemForDelete.value = null
+        }
+    })
 }
 
 /* ================= สลับสถานะ แสดง/ไม่แสดง ================= */
 const togglingId = ref(null)
 const isFlagTrue = (v) => v === true || v === 1 || v === '1' || v === 'true'
 const showConfirmToggle = (item) => {
-  const isActive = isFlagTrue(item.status)
-  confirm1.require({
-    message: isActive ? t('ยืนยันการซ่อนรายการนี้ไม่ให้แสดงใช่ไหม?') : t('ยืนยันการแสดงรายการนี้ใช่ไหม?'),
-    header: t('ยืนยัน'),
-    icon: 'pi pi-exclamation-triangle',
-    rejectProps: { label: t('ยกเลิก'), severity: 'secondary', outlined: true },
-    acceptProps: { label: t('ตกลง') },
-    accept: async () => {
-      togglingId.value = item.id
-      // mock toggle
-      item.status = !isActive
-      setTimeout(() => { togglingId.value = null }, 250)
-    }
-  })
+    const isActive = isFlagTrue(item.status)
+    confirm1.require({
+        message: isActive ? t('ยืนยันการซ่อนรายการนี้ไม่ให้แสดงใช่ไหม?') : t('ยืนยันการแสดงรายการนี้ใช่ไหม?'),
+        header: t('ยืนยัน'),
+        icon: 'pi pi-exclamation-triangle',
+        rejectProps: { label: t('ยกเลิก'), severity: 'secondary', outlined: true },
+        acceptProps: { label: t('ตกลง') },
+        accept: async () => {
+            togglingId.value = item.id
+            // mock toggle
+            item.status = !isActive
+            setTimeout(() => { togglingId.value = null }, 250)
+        }
+    })
 }
 
 /* ================= สร้าง/แก้ไข (Action Sheet) ================= */
@@ -242,7 +316,7 @@ const isEditMode = computed(() => !!(editingItem.value && editingItem.value.id))
 const { value: business_list_name_th } = useField('business_list_name_i18n.th', undefined, { initialValue: '' })
 const { value: business_list_name_en } = useField('business_list_name_i18n.en', undefined, { initialValue: '' })
 const { value: business_list_name_cn } = useField('business_list_name_i18n.cn', undefined, { initialValue: '' })
-const { value: business_list_price }   = useField('business_list_price', undefined, { initialValue: '' })
+const { value: business_list_price } = useField('business_list_price', undefined, { initialValue: '' })
 
 const business_list_name_i18n = ref({
     get th() { return business_list_name_th.value }, set th(v) { business_list_name_th.value = v },
